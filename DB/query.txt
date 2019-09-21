@@ -1,0 +1,102 @@
+chèn dữ liệu
+-> người dùng
+-> nông trại
+-> thiết bị
+-> Thông tin môi trường: tại một cảm biến
+->  Thông tin điều khiển: tại một thiết bị với các thuộc tính hành  của thiết 
+-> Thông tin dự báo thời tiết
+
+truy vấn
+-> Thông tin người dùng
+-> Thông tin nông trại
+-> thông tin về thiết bị
+
+Thông tin về môi trường đo bởi 1 sensor tại một thời điểm, 1 khoảng thời gian (thời điểm là thời điểm gần nhất của input mà có dữ liệu)
+-> Thông tin môi trường tại toàn bộ các sensor (để train cho mô hình)
+Thông tin về việc điều khiển hoạt động tại 1 máy bơm (tại 1 khoảng thời gian, 1 thời điểm)
+Thông tin môi trường sau khi điều khiển hoạt động xong
+Thông tin dự báo thời tiết trong một khoảng thời gian cho trước
+Thông tin dự báo thời tiết trong ngày
+
+
+
+
+Xóa dữ liệu
+-> người dùng: nông trại
+-> nông trại: thiết bị, dự báo thời tiết
+thiết bị: controlling, monitoring
+thông tin môi trường: controlling, monitoring
+dự báo thời tiết
+controlling
+monitoring
+
+Sửa
+Dự báo thời tiết
+
+
+-----------------------------------------------
+
+User:
+	getAll(), getById(id)
+	save(User)
+	update(Id, newUser)
+	delete(Id): deleteFarm trước
+Farm:
+	getAll(), getById(id), getByUser(UserID)
+	save(Farm)
+	update(FarmID, newFarm)
+	delete(FarmID)
+Plot:
+	getAll(), getById(id), getByFarm(FarmID)
+	save(Plot)
+	update(PlotID, newPlot)
+	delete(PlotID)
+Device:
+	getAll(), getById(id), getByPlot(PlotID)
+	save(Device)
+	update(newDevice)
+	delete(DeviceID)
+Sensing:
+	getAll(), getByPlot(PlotID)
+	save(Sensing)
+	update(newSensing)
+	delete(id)
+Controlling:
+	getAll(), getByPlot(PlotID)
+	save(Controlling)
+	update(newControlling)
+	delete(id)
+Forecast:
+	getAll(), getByPlot(PlotID)
+	save(Forecast, DeviceID, PlotID)
+	update(newForecast)
+	delete(id)
+	
+
+Các bảng tự sinh auto sinh ID: user, farm, controlling, sensing, forecast
+Các bảng viết phần sinh ID: device, plot
+
+device cần có thêm trạng thái: offline hay 
+
+Cấp DeviceID cho thiết bị:
+khi device mới tham gia vào 1 farm, cần phải thông báo cho server để server cấp ID cho device này (userID, farmID xử lý sau)
+device gửi MAC lên cho server (chỉ những device chưa có ID)
+	registry/MAC_Address_Device/
+server cấp ID cho device (ID được lưu trong bộ nhớ của device để cho lần gửi nhận sau)
+	supply/MAC_Address_Device/
+
+
+Server và device trao đổi dữ liệu cho nhau:
+gửi dữ liệu từ sensor, server nhận
+	monitoring/deviceID
+gửi dữ liệu từ server, controller nhận
+	controlling/deviceID
+
+
+Server cần phải biết trạng thái của thiết bị:
+server sẽ theo dõi và device public trên topic
+	status/deviceID
+và dùng 2 option:
+	lwt
+khi device chuyển từ on sang off: broker sẽ gửi 1 message lên kênh này
+khi device chuyển từ off sang on: device sẽ public 1 message lên là đã active

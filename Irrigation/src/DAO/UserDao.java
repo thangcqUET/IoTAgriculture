@@ -69,7 +69,7 @@ public class UserDao implements Dao<User> {
 
 
     @Override
-    public void save(User user) {
+    public int save(User user) {
         Statement statement;
         try {
             statement = dbConnector.getConnection().createStatement();
@@ -80,6 +80,7 @@ public class UserDao implements Dao<User> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     @Override

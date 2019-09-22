@@ -61,7 +61,7 @@ public class ForecastDao implements Dao<Forecast> {
     }
 
     @Override
-    public void save(Forecast forecast) {
+    public int save(Forecast forecast) {
         Statement statement;
         try {
             statement = dbConnector.getConnection().createStatement();
@@ -72,6 +72,7 @@ public class ForecastDao implements Dao<Forecast> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     @Override

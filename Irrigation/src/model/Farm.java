@@ -1,21 +1,21 @@
 package model;
 
 public class Farm {
-    private int farmID;
+    private Integer farmID;
     private String locate;
-    private double area;
-    private int farmTypeID;
+    private Double area;
+    private Integer farmTypeID;
     private String farmType;
-    private int userID;
+    private Integer userID;
 
-    public Farm(String locate, double area, int farmTypeID, int userID) {
+    public Farm(String locate, Double area, Integer farmTypeID, Integer userID) {
         this.locate = locate;
         this.area = area;
         this.farmTypeID = farmTypeID;
         this.userID = userID;
     }
 
-    public Farm(int farmID, String locate, double area, int farmTypeID, int userID) {
+    public Farm(Integer farmID, String locate, Double area, Integer farmTypeID, Integer userID) {
         this.farmID = farmID;
         this.locate = locate;
         this.area = area;
@@ -25,15 +25,15 @@ public class Farm {
         this.userID = userID;
     }
 
-    public int getUserID() {
+    public Integer getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(Integer userID) {
         this.userID = userID;
     }
 
-    public int getFarmTypeID() {
+    public Integer getFarmTypeID() {
         return farmTypeID;
     }
 
@@ -41,11 +41,11 @@ public class Farm {
         return farmType;
     }
 
-    public int getFarmID() {
+    public Integer getFarmID() {
         return farmID;
     }
 
-    public void setFarmID(int farmID) {
+    public void setFarmID(Integer farmID) {
         this.farmID = farmID;
     }
 
@@ -57,19 +57,19 @@ public class Farm {
         this.locate = locate;
     }
 
-    public double getArea() {
+    public Double getArea() {
         return area;
     }
 
-    public void setArea(double area) {
+    public void setArea(Double area) {
         this.area = area;
     }
 
-    public int getfarmTypeID() {
+    public Integer getfarmTypeID() {
         return farmTypeID;
     }
 
-    public void setfarmTypeID(int farmTypeID) {
+    public void setfarmTypeID(Integer farmTypeID) {
         this.farmTypeID = farmTypeID;
     }
 
@@ -77,7 +77,7 @@ public class Farm {
         this.farmType = farmType;
     }
 
-    public void setFarmTypeID(int farmTypeID) {
+    public void setFarmTypeID(Integer farmTypeID) {
         this.farmTypeID = farmTypeID;
     }
 

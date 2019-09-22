@@ -63,7 +63,7 @@ public class SensingDao implements Dao<Sensing> {
     }
 
     @Override
-    public void save(Sensing sensing) {
+    public int save(Sensing sensing) {
 
         try {
             String sql = "insert into Sensing (DeviceID, PlotID, SoilMoisture, Humidity,LightLevel,Temperature, TimeOfMeasurement) values (?,?,?,?,?,?,?)";
@@ -82,6 +82,7 @@ public class SensingDao implements Dao<Sensing> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     @Override

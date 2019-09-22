@@ -66,17 +66,23 @@ public class FarmDao implements Dao<Farm> {
     }
 
     @Override
-    public void save(Farm farm) {
+    public int save(Farm farm) {
         Statement statement;
+        int farmId=0;
         try {
             statement = dbConnector.getConnection().createStatement();
             String sql = "insert into Farms(Locate,Area,FarmTypeID,UserID) values " +
                     "('"+farm.getLocate()+"',"+farm.getArea()+","+farm.getfarmTypeID()+","+farm.getUserID()+")";
-            statement.execute(sql);
+            statement.execute(sql,Statement.RETURN_GENERATED_KEYS);
+            ResultSet resultSet = statement.getGeneratedKeys();
+            while(resultSet.next()){
+                farmId=resultSet.getInt(1);
+            }
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return farmId;
     }
 
     @Override

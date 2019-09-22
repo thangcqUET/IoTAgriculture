@@ -98,3 +98,4 @@ cmake-build-*/
 #folder ignore
 **/gitignore/**
 
+**/*.class

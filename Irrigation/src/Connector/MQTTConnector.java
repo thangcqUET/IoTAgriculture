@@ -25,6 +25,8 @@ public class MQTTConnector {
         mqttConnectOptions.setPassword("12345678".toCharArray());
         mqttConnectOptions.setAutomaticReconnect(true);
         mqttConnectOptions.setCleanSession(true);
+        byte[] payloadOffline = {0,1};
+        mqttConnectOptions.setWill("/status/HGW/offline",payloadOffline,2,false);
     }
     public MQTTConnector(String host, MqttConnectOptions mqttConnectOptions){
         this.host= host;
@@ -50,8 +52,6 @@ public class MQTTConnector {
     }
     public void publishMessage(String message, String topic){
         try {
-            System.out.println(">>>message string input: ");
-            System.out.println(message);
             if(message == null){
                 //System.out.println("null String ");
                 Thread.sleep(3000);
@@ -61,7 +61,7 @@ public class MQTTConnector {
             MqttMessage messageMqtt = new MqttMessage();
             messageMqtt.setPayload(message.getBytes());
             messageMqtt.setQos(2);
-            System.out.println(">>messageMqtt: ");
+            System.out.println(">>message is published: ");
             System.out.println(messageMqtt);
             mMqttClient.publish(topic, messageMqtt);
         } catch (MqttException e) {

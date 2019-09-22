@@ -64,7 +64,7 @@ public class PlotDao implements Dao<Plot> {
     }
 
     @Override
-    public void save(Plot plot) {
+    public int save(Plot plot) {
         Statement statement;
         try {
             statement = dbConnector.getConnection().createStatement();
@@ -75,6 +75,7 @@ public class PlotDao implements Dao<Plot> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     @Override

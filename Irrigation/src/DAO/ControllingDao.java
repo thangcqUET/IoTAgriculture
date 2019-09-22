@@ -60,7 +60,7 @@ public class ControllingDao implements Dao<Controlling>{
     }
 
     @Override
-    public void save(Controlling controlling) {
+    public int save(Controlling controlling) {
         Statement statement;
         try {
             statement = dbConnector.getConnection().createStatement();
@@ -71,6 +71,7 @@ public class ControllingDao implements Dao<Controlling>{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     @Override

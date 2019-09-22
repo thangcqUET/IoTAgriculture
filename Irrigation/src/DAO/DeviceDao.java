@@ -64,7 +64,7 @@ public class DeviceDao implements Dao<Device> {
     }
 
     @Override
-    public void save(Device device) {
+    public int save(Device device) {
         Statement statement;
         try {
             statement = dbConnector.getConnection().createStatement();
@@ -75,6 +75,7 @@ public class DeviceDao implements Dao<Device> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     @Override

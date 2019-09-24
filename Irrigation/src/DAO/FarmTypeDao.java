@@ -1,8 +1,7 @@
 package DAO;
 
-import model.Device;
-import model.Farm;
-import model.User;
+import model.DeviceType;
+import model.FarmType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,22 +9,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeviceDao implements Dao<Device> {
+public class FarmTypeDao implements Dao<FarmType>{
     @Override
-    public List<Device> getAll() {
+    public List<FarmType> getAll() {
         Statement statement= null;
-        List<Device> devices = new ArrayList<Device>();
+        List<FarmType> farmTypes = new ArrayList<FarmType>();
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "select * from Devices";
+            String sql = "select * from FarmTypes";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
-                Device device = new Device(resultSet.getLong("DeviceID"),
-                        resultSet.getInt("DeviceTypeID"),
-                        resultSet.getString("DeviceName"),
-                        resultSet.getInt("PlotID")
+                FarmType farmType = new FarmType(resultSet.getInt("FarmTypeID"),
+                        resultSet.getString("FarmType")
                 );
-                devices.add(device);
+                farmTypes.add(farmType);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,38 +35,36 @@ public class DeviceDao implements Dao<Device> {
                 }
             }
         }
-        return devices;
+        return farmTypes;
     }
 
     @Override
-    public Device getById(int id) {
+    public FarmType getById(int id) {
         Statement statement;
-        Device device = null;
+        FarmType farmType = null;
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "select * from Devices where DeviceID = "+id+";";
+            String sql = "select * from FarmTypes where FarmTypeID = "+id+";";
             ResultSet resultSet=statement.executeQuery(sql);
             while(resultSet.next()){
-                device = new Device(resultSet.getLong("DeviceID"),
-                        resultSet.getInt("DeviceTypeID"),
-                        resultSet.getString("DeviceName"),
-                        resultSet.getInt("PlotID")
+                farmType = new FarmType(resultSet.getInt("FarmTypeID"),
+                        resultSet.getString("FarmType")
                 );
             }
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return device;
+        return farmType;
     }
 
     @Override
-    public int save(Device device) {
+    public int save(FarmType farmType) {
         Statement statement;
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "insert into Devices(DeviceID, DeviceTypeID,DeviceName,PlotID) values " +
-                    "("+device.getDeviceID()+","+device.getDeviceTypeID()+",'"+device.getDeviceName()+"',"+device.getPlotID()+")";
+            String sql = "insert into FarmTypes(FarmTypeID, FarmType) values " +
+                    "("+farmType.getFarmTypeId()+","+farmType.getFarmType()+")";
             statement.execute(sql);
             statement.close();
         } catch (SQLException e) {
@@ -79,7 +74,7 @@ public class DeviceDao implements Dao<Device> {
     }
 
     @Override
-    public void update(Device t_old, Device t_new) {
+    public void update(FarmType t_old, FarmType t_new) {
 
     }
 

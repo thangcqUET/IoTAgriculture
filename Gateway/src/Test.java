@@ -17,32 +17,31 @@ public class Test {
         mqttConnector.connect();
 
         JSONObject jsonObject = new JSONObject();
-        String mac = "123";
-        jsonObject.put("mac",mac);
-        jsonObject.put("userId",1);
+        Long deviceId = new Long(123456);
+        jsonObject.put("deviceId",deviceId);
 
-        mqttConnector.publishMessage(jsonObject.toJSONString(),"registry/HGW");
-        mqttConnector.subcribe("supply/"+mac);
-        mqttConnector.getmMqttClient().setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean b, String s) {
-
-            }
-
-            @Override
-            public void connectionLost(Throwable throwable) {
-
-            }
-
-            @Override
-            public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
-                System.out.println(mqttMessage.toString());
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-
-            }
-        });
+        mqttConnector.publishMessage(jsonObject.toJSONString(),"registry/device");
+//        mqttConnector.subcribe("registry/");
+//        mqttConnector.getmMqttClient().setCallback(new MqttCallbackExtended() {
+//            @Override
+//            public void connectComplete(boolean b, String s) {
+//
+//            }
+//
+//            @Override
+//            public void connectionLost(Throwable throwable) {
+//
+//            }
+//
+//            @Override
+//            public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
+//                System.out.println(mqttMessage.toString());
+//            }
+//
+//            @Override
+//            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+//
+//            }
+//        });
     }
 }

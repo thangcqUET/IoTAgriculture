@@ -2,20 +2,20 @@ package model;
 
 public class Farm {
     private Integer farmID;
-    private String locate;
+    private Integer locate;
     private Double area;
     private Integer farmTypeID;
     private String farmType;
     private Integer userID;
 
-    public Farm(String locate, Double area, Integer farmTypeID, Integer userID) {
+    public Farm(Integer locate, Double area, Integer farmTypeID, Integer userID) {
         this.locate = locate;
         this.area = area;
         this.farmTypeID = farmTypeID;
         this.userID = userID;
     }
 
-    public Farm(Integer farmID, String locate, Double area, Integer farmTypeID, Integer userID) {
+    public Farm(Integer farmID, Integer locate, Double area, Integer farmTypeID, Integer userID) {
         this.farmID = farmID;
         this.locate = locate;
         this.area = area;
@@ -49,11 +49,11 @@ public class Farm {
         this.farmID = farmID;
     }
 
-    public String getLocate() {
+    public Integer getLocate() {
         return locate;
     }
 
-    public void setLocate(String locate) {
+    public void setLocate(Integer locate) {
         this.locate = locate;
     }
 

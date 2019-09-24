@@ -21,11 +21,12 @@ public class ForecastDao implements Dao<Forecast> {
             ResultSet resultSet= statement.executeQuery(sql);
             while(resultSet.next()){
                 forecast = new Forecast(resultSet.getLong("ForecastID"),
-                        resultSet.getInt("DeviceID"),
+                        resultSet.getLong("DeviceID"),
                         resultSet.getInt("PlotID"),
                         resultSet.getFloat("Precipitation"),
-                        resultSet.getByte("Temperature"),
-                        resultSet.getInt("ForecastStatus"),
+                        resultSet.getFloat("Humidity"),
+                        resultSet.getFloat("Temperature"),
+                        resultSet.getString("ForecastStatus"),
                         resultSet.getTimestamp("TimeOfMeasurement"));
                 forecasts.add(forecast);
             }
@@ -46,11 +47,12 @@ public class ForecastDao implements Dao<Forecast> {
             ResultSet resultSet= statement.executeQuery(sql);
             while(resultSet.next()){
                 forecast = new Forecast(resultSet.getLong("ForecastID"),
-                        resultSet.getInt("DeviceID"),
+                        resultSet.getLong("DeviceID"),
                         resultSet.getInt("PlotID"),
                         resultSet.getFloat("Precipitation"),
-                        resultSet.getByte("Temperature"),
-                        resultSet.getInt("ForecastStatus"),
+                        resultSet.getFloat("Humidity"),
+                        resultSet.getFloat("Temperature"),
+                        resultSet.getString("ForecastStatus"),
                         resultSet.getTimestamp("TimeOfMeasurement"));
             }
             statement.close();

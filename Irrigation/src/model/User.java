@@ -1,7 +1,7 @@
 package model;
 
 public class User {
-    private int userID;
+    private Integer userID;
     private String userName;
     private String passwordMD5;
     public User(String userName, String passwordMD5){
@@ -9,7 +9,7 @@ public class User {
         this.passwordMD5= passwordMD5;
     }
 
-    public User(int userID, String userName, String passwordMD5) {
+    public User(Integer userID, String userName, String passwordMD5) {
         this.userID = userID;
         this.userName = userName;
         this.passwordMD5 = passwordMD5;
@@ -20,11 +20,11 @@ public class User {
         return "userID: "+userID+", userName: "+userName+", passwordMD5: "+passwordMD5+"\n";
     }
 
-    public int getUserID() {
+    public Integer getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(Integer userID) {
         this.userID = userID;
     }
 

@@ -3,15 +3,15 @@ package model;
 import java.sql.Timestamp;
 
 public class Controlling {
-    private long controllingID;
-    private int deviceID;
-    private int plotID;
-    private float amountOfWater;
-    private int wateringDuration;
+    private Long controllingID;
+    private Long deviceID;
+    private Integer plotID;
+    private Float amountOfWater;
+    private Integer wateringDuration;
     private Timestamp timeOfControl;
 
 
-    public Controlling(long controllingID, int deviceID, int plotID, float amountOfWater, int wateringDuration, Timestamp timeOfControl) {
+    public Controlling(Long controllingID, Long deviceID, Integer plotID, Float amountOfWater, Integer wateringDuration, Timestamp timeOfControl) {
         this.controllingID = controllingID;
         this.deviceID = deviceID;
         this.plotID = plotID;
@@ -20,7 +20,7 @@ public class Controlling {
         this.timeOfControl = timeOfControl;
     }
 
-    public Controlling(int deviceID, int plotID, float amountOfWater, int wateringDuration, Timestamp timeOfControl) {
+    public Controlling(Long deviceID, Integer plotID, Float amountOfWater, Integer wateringDuration, Timestamp timeOfControl) {
         this.deviceID = deviceID;
         this.plotID = plotID;
         this.amountOfWater = amountOfWater;
@@ -28,43 +28,43 @@ public class Controlling {
         this.timeOfControl = timeOfControl;
     }
 
-    public long getControllingID() {
+    public Long getControllingID() {
         return controllingID;
     }
 
-    public void setControllingID(long controllingID) {
+    public void setControllingID(Long controllingID) {
         this.controllingID = controllingID;
     }
 
-    public int getDeviceID() {
+    public Long getDeviceID() {
         return deviceID;
     }
 
-    public void setDeviceID(int deviceID) {
+    public void setDeviceID(Long deviceID) {
         this.deviceID = deviceID;
     }
 
-    public int getPlotID() {
+    public Integer getPlotID() {
         return plotID;
     }
 
-    public void setPlotID(int plotID) {
+    public void setPlotID(Integer plotID) {
         this.plotID = plotID;
     }
 
-    public float getAmountOfWater() {
+    public Float getAmountOfWater() {
         return amountOfWater;
     }
 
-    public void setAmountOfWater(float amountOfWater) {
+    public void setAmountOfWater(Float amountOfWater) {
         this.amountOfWater = amountOfWater;
     }
 
-    public int getWateringDuration() {
+    public Integer getWateringDuration() {
         return wateringDuration;
     }
 
-    public void setWateringDuration(int wateringDuration) {
+    public void setWateringDuration(Integer wateringDuration) {
         this.wateringDuration = wateringDuration;
     }
 

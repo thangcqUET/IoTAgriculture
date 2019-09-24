@@ -21,7 +21,7 @@ public class FarmDao implements Dao<Farm> {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
                 Farm farm = new Farm(resultSet.getInt("FarmID"),
-                        resultSet.getString("Locate"),
+                        resultSet.getInt("Locate"),
                         resultSet.getDouble("Area"),
                         resultSet.getInt("FarmTypeID"),
                         resultSet.getInt("UserID")
@@ -52,7 +52,7 @@ public class FarmDao implements Dao<Farm> {
             ResultSet resultSet=statement.executeQuery(sql);
             while(resultSet.next()){
                 farm = new Farm(resultSet.getInt("FarmID"),
-                        resultSet.getString("Locate"),
+                        resultSet.getInt("Locate"),
                         resultSet.getDouble("Area"),
                         resultSet.getInt("FarmTypeID"),
                         resultSet.getInt("UserID")

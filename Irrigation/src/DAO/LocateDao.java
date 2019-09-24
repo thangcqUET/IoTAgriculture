@@ -1,8 +1,7 @@
 package DAO;
 
-import model.Device;
-import model.Farm;
-import model.User;
+import model.FarmType;
+import model.Locate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,22 +9,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeviceDao implements Dao<Device> {
+public class LocateDao implements Dao<Locate> {
     @Override
-    public List<Device> getAll() {
+    public List<Locate> getAll() {
         Statement statement= null;
-        List<Device> devices = new ArrayList<Device>();
+        List<Locate> locates = new ArrayList<Locate>();
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "select * from Devices";
+            String sql = "select * from Locates";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
-                Device device = new Device(resultSet.getLong("DeviceID"),
-                        resultSet.getInt("DeviceTypeID"),
-                        resultSet.getString("DeviceName"),
-                        resultSet.getInt("PlotID")
+                Locate locate = new Locate(resultSet.getInt("LocateID"),
+                        resultSet.getString("Locate")
                 );
-                devices.add(device);
+                locates.add(locate);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,38 +35,36 @@ public class DeviceDao implements Dao<Device> {
                 }
             }
         }
-        return devices;
+        return locates;
     }
 
     @Override
-    public Device getById(int id) {
+    public Locate getById(int id) {
         Statement statement;
-        Device device = null;
+        Locate locate = null;
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "select * from Devices where DeviceID = "+id+";";
+            String sql = "select * from Locates where LocateID = "+id+";";
             ResultSet resultSet=statement.executeQuery(sql);
             while(resultSet.next()){
-                device = new Device(resultSet.getLong("DeviceID"),
-                        resultSet.getInt("DeviceTypeID"),
-                        resultSet.getString("DeviceName"),
-                        resultSet.getInt("PlotID")
+                locate = new Locate(resultSet.getInt("LocateID"),
+                        resultSet.getString("Locate")
                 );
             }
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return device;
+        return locate;
     }
 
     @Override
-    public int save(Device device) {
+    public int save(Locate locate) {
         Statement statement;
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "insert into Devices(DeviceID, DeviceTypeID,DeviceName,PlotID) values " +
-                    "("+device.getDeviceID()+","+device.getDeviceTypeID()+",'"+device.getDeviceName()+"',"+device.getPlotID()+")";
+            String sql = "insert into Locates(LocateID, Locate) values " +
+                    "("+locate.getLocateId()+","+locate.getLocate()+")";
             statement.execute(sql);
             statement.close();
         } catch (SQLException e) {
@@ -79,7 +74,7 @@ public class DeviceDao implements Dao<Device> {
     }
 
     @Override
-    public void update(Device t_old, Device t_new) {
+    public void update(Locate t_old, Locate t_new) {
 
     }
 

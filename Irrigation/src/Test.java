@@ -64,8 +64,6 @@ public class Test {
                         registryHomeGateWay(mqttMessage);
                     }else if(topic.equals("registry/device")){
                         registryDevice(mqttMessage);
-                    }else if(topic.equals("registry/plot")){
-                        registryPlot(mqttMessage);
                     }else if(topic.equals("status/HGW/offline")){
                         notifyHomegatewayOffline(mqttMessage);
                     }else if(topic.equals("status/HGW/online")){
@@ -124,12 +122,16 @@ public class Test {
 
     }
 
-    public static void registryPlot(MqttMessage mqttMessage){
-
-    }
 
     public static void registryDevice(MqttMessage mqttMessage){
+        JSONObject jsonObject = Helper.mqttMessageToJsonObject(mqttMessage);
+        Long deviceId=null;
+        if(jsonObject.get("deviceId") instanceof Long){
+            deviceId = (Long)jsonObject.get("deviceId");
+        }else return;
 
+        DeviceDao deviceDao = new DeviceDao();
+        deviceDao.save(new Device(deviceId,null,null,null));
     }
 
     public static void notifyHomegatewayOffline(MqttMessage mqttMessage){

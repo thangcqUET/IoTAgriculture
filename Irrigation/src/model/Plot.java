@@ -1,12 +1,12 @@
 package model;
 
 public class Plot {
-    private int plotID;
-    private float area;
-    private int plotTypeID;
-    private int farmID;
+    private Integer plotID;
+    private Float area;
+    private Integer plotTypeID;
+    private Integer farmID;
 
-    public Plot(int plotID, float area, int plotTypeID, int farmID) {
+    public Plot(Integer plotID, Float area, Integer plotTypeID, Integer farmID) {
         this.plotID = plotID;
         this.area = area;
         this.plotTypeID = plotTypeID;
@@ -18,35 +18,35 @@ public class Plot {
         return "plotID: "+plotID+", area: "+area+", plotTypeID: "+plotTypeID+", farmID: "+farmID+'\n';
     }
 
-    public int getPlotID() {
+    public Integer getPlotID() {
         return plotID;
     }
 
-    public void setPlotID(int plotID) {
+    public void setPlotID(Integer plotID) {
         this.plotID = plotID;
     }
 
-    public float getArea() {
+    public Float getArea() {
         return area;
     }
 
-    public void setArea(float area) {
+    public void setArea(Float area) {
         this.area = area;
     }
 
-    public int getPlotTypeID() {
+    public Integer getPlotTypeID() {
         return plotTypeID;
     }
 
-    public void setPlotTypeID(int plotTypeID) {
+    public void setPlotTypeID(Integer plotTypeID) {
         this.plotTypeID = plotTypeID;
     }
 
-    public int getFarmID() {
+    public Integer getFarmID() {
         return farmID;
     }
 
-    public void setFarmID(int farmID) {
+    public void setFarmID(Integer farmID) {
         this.farmID = farmID;
     }
 }

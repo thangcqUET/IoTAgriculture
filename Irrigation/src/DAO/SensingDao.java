@@ -21,12 +21,13 @@ public class SensingDao implements Dao<Sensing> {
             ResultSet resultSet= statement.executeQuery(sql);
             while(resultSet.next()){
                 sensing = new Sensing(resultSet.getLong("SensingID"),
-                        resultSet.getInt("DeviceID"),
+                        resultSet.getLong("DeviceID"),
                         resultSet.getInt("PlotID"),
-                        resultSet.getByte("SoilMoisture"),
-                        resultSet.getByte("Humidity"),
+                        resultSet.getFloat("SoilMoisture"),
+                        resultSet.getFloat("SoilTemperature"),
+                        resultSet.getFloat("Humidity"),
+                        resultSet.getFloat("Temperature"),
                         resultSet.getInt("LightLevel"),
-                        resultSet.getByte("Temperature"),
                         resultSet.getTimestamp("TimeOfMeasurement"));
                 sensings.add(sensing);
             }
@@ -47,12 +48,13 @@ public class SensingDao implements Dao<Sensing> {
             ResultSet resultSet= statement.executeQuery(sql);
             while(resultSet.next()){
                 sensing = new Sensing(resultSet.getLong("SensingID"),
-                        resultSet.getInt("DeviceID"),
+                        resultSet.getLong("DeviceID"),
                         resultSet.getInt("PlotID"),
-                        resultSet.getByte("SoilMoisture"),
-                        resultSet.getByte("Humidity"),
+                        resultSet.getFloat("SoilMoisture"),
+                        resultSet.getFloat("SoilTemperature"),
+                        resultSet.getFloat("Humidity"),
+                        resultSet.getFloat("Temperature"),
                         resultSet.getInt("LightLevel"),
-                        resultSet.getByte("Temperature"),
                         resultSet.getTimestamp("TimeOfMeasurement"));
             }
             statement.close();
@@ -66,17 +68,18 @@ public class SensingDao implements Dao<Sensing> {
     public int save(Sensing sensing) {
 
         try {
-            String sql = "insert into Sensing (DeviceID, PlotID, SoilMoisture, Humidity,LightLevel,Temperature, TimeOfMeasurement) values (?,?,?,?,?,?,?)";
+            String sql = "insert into Sensing (DeviceID, PlotID, SoilMoisture, SoilTemperature, Humidity,LightLevel,Temperature, TimeOfMeasurement) values (?,?,?,?,?,?,?,?)";
 //                    +
 //                    "("+sensing.getDiviceID()+","+sensing.getPlotID()+","+sensing.getSoilMoisture()+","+sensing.getHumidity()+","+sensing.getLightLevel()+","+sensing.getTemperature()+","+"CURRENT_TIMESTAMP"+")";
             PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(sql);
-            preparedStatement.setInt(1,sensing.getDiviceID());
+            preparedStatement.setLong(1,sensing.getDeviceID());
             preparedStatement.setInt(2,sensing.getPlotID());
-            preparedStatement.setInt(3,sensing.getSoilMoisture());
-            preparedStatement.setInt(4,sensing.getHumidity());
-            preparedStatement.setInt(5,sensing.getLightLevel());
-            preparedStatement.setInt(6,sensing.getTemperature());
-            preparedStatement.setTimestamp(7,sensing.getTimeOfMeasurement());
+            preparedStatement.setFloat(3,sensing.getSoilMoisture());
+            preparedStatement.setFloat(4,sensing.getSoilTemperature());
+            preparedStatement.setFloat(5,sensing.getHumidity());
+            preparedStatement.setFloat(6,sensing.getTemperature());
+            preparedStatement.setInt(7,sensing.getLightLevel());
+            preparedStatement.setTimestamp(8,sensing.getTimeOfMeasurement());
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {

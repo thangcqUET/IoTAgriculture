@@ -1,8 +1,7 @@
 package DAO;
 
-import model.Device;
-import model.Farm;
-import model.User;
+import model.FarmType;
+import model.PlotType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,22 +9,20 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeviceDao implements Dao<Device> {
+public class PlotTypeDao implements Dao<PlotType>{
     @Override
-    public List<Device> getAll() {
+    public List<PlotType> getAll() {
         Statement statement= null;
-        List<Device> devices = new ArrayList<Device>();
+        List<PlotType> plotTypes = new ArrayList<PlotType>();
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "select * from Devices";
+            String sql = "select * from PlotTypes";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
-                Device device = new Device(resultSet.getLong("DeviceID"),
-                        resultSet.getInt("DeviceTypeID"),
-                        resultSet.getString("DeviceName"),
-                        resultSet.getInt("PlotID")
+                PlotType plotType = new PlotType(resultSet.getInt("PlotTypeID"),
+                        resultSet.getString("PlotType")
                 );
-                devices.add(device);
+                plotTypes.add(plotType);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,38 +35,36 @@ public class DeviceDao implements Dao<Device> {
                 }
             }
         }
-        return devices;
+        return plotTypes;
     }
 
     @Override
-    public Device getById(int id) {
+    public PlotType getById(int id) {
         Statement statement;
-        Device device = null;
+        PlotType plotType = null;
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "select * from Devices where DeviceID = "+id+";";
+            String sql = "select * from PlotTypes where PlotTypeID = "+id+";";
             ResultSet resultSet=statement.executeQuery(sql);
             while(resultSet.next()){
-                device = new Device(resultSet.getLong("DeviceID"),
-                        resultSet.getInt("DeviceTypeID"),
-                        resultSet.getString("DeviceName"),
-                        resultSet.getInt("PlotID")
+                plotType = new PlotType(resultSet.getInt("PlotTypeID"),
+                        resultSet.getString("PlotType")
                 );
             }
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return device;
+        return plotType;
     }
 
     @Override
-    public int save(Device device) {
+    public int save(PlotType plotType) {
         Statement statement;
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "insert into Devices(DeviceID, DeviceTypeID,DeviceName,PlotID) values " +
-                    "("+device.getDeviceID()+","+device.getDeviceTypeID()+",'"+device.getDeviceName()+"',"+device.getPlotID()+")";
+            String sql = "insert into PlotTypes(PlotTypeID, PlotType) values " +
+                    "("+plotType.getPlotTypeId()+","+plotType.getPlotType()+")";
             statement.execute(sql);
             statement.close();
         } catch (SQLException e) {
@@ -79,7 +74,7 @@ public class DeviceDao implements Dao<Device> {
     }
 
     @Override
-    public void update(Device t_old, Device t_new) {
+    public void update(PlotType t_old, PlotType t_new) {
 
     }
 

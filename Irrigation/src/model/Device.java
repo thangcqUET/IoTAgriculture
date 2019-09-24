@@ -1,12 +1,12 @@
 package model;
 
 public class Device {
-    private int deviceID;
-    private int deviceTypeID;
+    private Long deviceID;
+    private Integer deviceTypeID;
     private String deviceName;
-    private int plotID;
+    private Integer plotID;
 
-    public Device(int deviceID, int deviceTypeID, String deviceName, int plotID) {
+    public Device(Long deviceID, Integer deviceTypeID, String deviceName, Integer plotID) {
         this.deviceID = deviceID;
         this.deviceTypeID = deviceTypeID;
         this.deviceName = deviceName;
@@ -18,19 +18,19 @@ public class Device {
         return "deviceID: "+deviceID+", deviceTypeID: "+deviceTypeID+", deviceName: "+deviceName+", plotID: "+plotID+'\n';
     }
 
-    public int getDeviceID() {
+    public Long getDeviceID() {
         return deviceID;
     }
 
-    public void setDeviceID(int deviceID) {
+    public void setDeviceID(Long deviceID) {
         this.deviceID = deviceID;
     }
 
-    public int getDeviceTypeID() {
+    public Integer getDeviceTypeID() {
         return deviceTypeID;
     }
 
-    public void setDeviceTypeID(int deviceTypeID) {
+    public void setDeviceTypeID(Integer deviceTypeID) {
         this.deviceTypeID = deviceTypeID;
     }
 
@@ -42,11 +42,11 @@ public class Device {
         this.deviceName = deviceName;
     }
 
-    public int getPlotID() {
+    public Integer getPlotID() {
         return plotID;
     }
 
-    public void setPlotID(int plotID) {
+    public void setPlotID(Integer plotID) {
         this.plotID = plotID;
     }
 }

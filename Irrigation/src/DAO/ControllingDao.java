@@ -22,7 +22,7 @@ public class ControllingDao implements Dao<Controlling>{
             ResultSet resultSet= statement.executeQuery(sql);
             while(resultSet.next()){
                 controlling = new Controlling(resultSet.getLong("ControllingID"),
-                        resultSet.getInt("DeviceID"),
+                        resultSet.getLong("DeviceID"),
                         resultSet.getInt("PlotID"),
                         resultSet.getFloat("AmountOfWater"),
                         resultSet.getInt("WateringDuration"),
@@ -46,7 +46,7 @@ public class ControllingDao implements Dao<Controlling>{
             ResultSet resultSet= statement.executeQuery(sql);
             while(resultSet.next()){
                 controlling = new Controlling(resultSet.getLong("ControllingID"),
-                        resultSet.getInt("DeviceID"),
+                        resultSet.getLong("DeviceID"),
                         resultSet.getInt("PlotID"),
                         resultSet.getFloat("AmountOfWater"),
                         resultSet.getInt("WateringDuration"),

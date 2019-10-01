@@ -28,4 +28,9 @@ public class DeviceType {
     public DeviceType(String deviceType) {
         this.deviceType = deviceType;
     }
+
+    @Override
+    public String toString() {
+        return "deviceTypeId: "+deviceTypeId+", deviceType: "+deviceType+"\n";
+    }
 }

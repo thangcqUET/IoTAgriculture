@@ -64,7 +64,7 @@ public class PlotTypeDao implements Dao<PlotType>{
         try {
             statement = dbConnector.getConnection().createStatement();
             String sql = "insert into PlotTypes(PlotTypeID, PlotType) values " +
-                    "("+plotType.getPlotTypeId()+","+plotType.getPlotType()+")";
+                    "("+plotType.getPlotTypeId()+",'"+plotType.getPlotType()+"')";
             statement.execute(sql);
             statement.close();
         } catch (SQLException e) {

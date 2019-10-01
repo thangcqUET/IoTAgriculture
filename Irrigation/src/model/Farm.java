@@ -2,24 +2,27 @@ package model;
 
 public class Farm {
     private Integer farmID;
-    private Integer locate;
+    private Integer locateId;
     private Double area;
     private Integer farmTypeID;
     private String farmType;
+    private Boolean status;
     private Integer userID;
 
-    public Farm(Integer locate, Double area, Integer farmTypeID, Integer userID) {
-        this.locate = locate;
+    public Farm(Integer locateId, Double area, Integer farmTypeID,Boolean status, Integer userID) {
+        this.locateId = locateId;
         this.area = area;
         this.farmTypeID = farmTypeID;
+        this.status = status;
         this.userID = userID;
     }
 
-    public Farm(Integer farmID, Integer locate, Double area, Integer farmTypeID, Integer userID) {
+    public Farm(Integer farmID, Integer locateId, Double area, Integer farmTypeID,Boolean status, Integer userID) {
         this.farmID = farmID;
-        this.locate = locate;
+        this.locateId = locateId;
         this.area = area;
         this.farmTypeID = farmTypeID;
+        this.status = status;
         //create FarmType
         //code here
         this.userID = userID;
@@ -49,12 +52,12 @@ public class Farm {
         this.farmID = farmID;
     }
 
-    public Integer getLocate() {
-        return locate;
+    public Integer getLocateId() {
+        return locateId;
     }
 
-    public void setLocate(Integer locate) {
-        this.locate = locate;
+    public void setLocateId(Integer locateId) {
+        this.locateId = locateId;
     }
 
     public Double getArea() {
@@ -81,8 +84,16 @@ public class Farm {
         this.farmTypeID = farmTypeID;
     }
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "farmID: "+farmID+", farmType: "+farmType+", locate: "+locate+", area: "+area+"\n";
+        return "farmID: "+farmID+", farmType: "+farmType+", locateId: "+locateId+", area: "+area+", userId: "+userID+"\n";
     }
 }

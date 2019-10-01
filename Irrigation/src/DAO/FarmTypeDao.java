@@ -64,7 +64,7 @@ public class FarmTypeDao implements Dao<FarmType>{
         try {
             statement = dbConnector.getConnection().createStatement();
             String sql = "insert into FarmTypes(FarmTypeID, FarmType) values " +
-                    "("+farmType.getFarmTypeId()+","+farmType.getFarmType()+")";
+                    "("+farmType.getFarmTypeId()+",'"+farmType.getFarmType()+"')";
             statement.execute(sql);
             statement.close();
         } catch (SQLException e) {

@@ -68,8 +68,8 @@ public class PlotDao implements Dao<Plot> {
         Statement statement;
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "insert into Plots(PlotID,Area,PlotTypeID,FarmID) values " +
-                    "("+plot.getPlotID()+","+plot.getArea()+","+plot.getPlotTypeID()+","+plot.getFarmID()+")";
+            String sql = "insert into Plots(Area,PlotTypeID,FarmID) values " +
+                    "("+plot.getArea()+","+plot.getPlotTypeID()+","+plot.getFarmID()+")";
             statement.execute(sql);
             statement.close();
         } catch (SQLException e) {

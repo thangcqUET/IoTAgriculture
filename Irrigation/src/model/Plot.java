@@ -13,6 +13,12 @@ public class Plot {
         this.farmID = farmID;
     }
 
+    public Plot(Float area, Integer plotTypeID, Integer farmID) {
+        this.area = area;
+        this.plotTypeID = plotTypeID;
+        this.farmID = farmID;
+    }
+
     @Override
     public String toString() {
         return "plotID: "+plotID+", area: "+area+", plotTypeID: "+plotTypeID+", farmID: "+farmID+'\n';

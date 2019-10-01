@@ -21,9 +21,10 @@ public class FarmDao implements Dao<Farm> {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
                 Farm farm = new Farm(resultSet.getInt("FarmID"),
-                        resultSet.getInt("Locate"),
+                        resultSet.getInt("LocateID"),
                         resultSet.getDouble("Area"),
                         resultSet.getInt("FarmTypeID"),
+                        resultSet.getBoolean("Status"),
                         resultSet.getInt("UserID")
                 );
                 farms.add(farm);
@@ -52,9 +53,10 @@ public class FarmDao implements Dao<Farm> {
             ResultSet resultSet=statement.executeQuery(sql);
             while(resultSet.next()){
                 farm = new Farm(resultSet.getInt("FarmID"),
-                        resultSet.getInt("Locate"),
+                        resultSet.getInt("LocateID"),
                         resultSet.getDouble("Area"),
                         resultSet.getInt("FarmTypeID"),
+                        resultSet.getBoolean("Status"),
                         resultSet.getInt("UserID")
                 );
             }
@@ -71,8 +73,8 @@ public class FarmDao implements Dao<Farm> {
         int farmId=0;
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "insert into Farms(Locate,Area,FarmTypeID,UserID) values " +
-                    "('"+farm.getLocate()+"',"+farm.getArea()+","+farm.getfarmTypeID()+","+farm.getUserID()+")";
+            String sql = "insert into Farms(LocateID,Area,FarmTypeID,Status,UserID) values " +
+                    "('"+farm.getLocateId()+"',"+farm.getArea()+","+farm.getfarmTypeID()+","+farm.getStatus()+","+farm.getUserID()+")";
             statement.execute(sql,Statement.RETURN_GENERATED_KEYS);
             ResultSet resultSet = statement.getGeneratedKeys();
             while(resultSet.next()){

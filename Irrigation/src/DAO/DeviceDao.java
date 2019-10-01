@@ -23,6 +23,7 @@ public class DeviceDao implements Dao<Device> {
                 Device device = new Device(resultSet.getLong("DeviceID"),
                         resultSet.getInt("DeviceTypeID"),
                         resultSet.getString("DeviceName"),
+                        resultSet.getBoolean("Status"),
                         resultSet.getInt("PlotID")
                 );
                 devices.add(device);
@@ -53,6 +54,7 @@ public class DeviceDao implements Dao<Device> {
                 device = new Device(resultSet.getLong("DeviceID"),
                         resultSet.getInt("DeviceTypeID"),
                         resultSet.getString("DeviceName"),
+                        resultSet.getBoolean("Status"),
                         resultSet.getInt("PlotID")
                 );
             }
@@ -68,8 +70,8 @@ public class DeviceDao implements Dao<Device> {
         Statement statement;
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "insert into Devices(DeviceID, DeviceTypeID,DeviceName,PlotID) values " +
-                    "("+device.getDeviceID()+","+device.getDeviceTypeID()+",'"+device.getDeviceName()+"',"+device.getPlotID()+")";
+            String sql = "insert into Devices(DeviceID, DeviceTypeID,DeviceName,Status,PlotID) values " +
+                    "("+device.getDeviceID()+","+device.getDeviceTypeID()+",'"+device.getDeviceName()+"',"+device.getStatus()+","+device.getPlotID()+")";
             statement.execute(sql);
             statement.close();
         } catch (SQLException e) {

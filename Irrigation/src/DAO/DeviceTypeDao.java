@@ -65,7 +65,7 @@ public class DeviceTypeDao implements Dao<DeviceType>{
         try {
             statement = dbConnector.getConnection().createStatement();
             String sql = "insert into DeviceTypes(DeviceTypeID, DeviceType) values " +
-                    "("+deviceType.getDeviceTypeId()+","+deviceType.getDeviceType()+")";
+                    "("+deviceType.getDeviceTypeId()+",'"+deviceType.getDeviceType()+"')";
             statement.execute(sql);
             statement.close();
         } catch (SQLException e) {

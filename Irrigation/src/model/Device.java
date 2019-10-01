@@ -4,18 +4,20 @@ public class Device {
     private Long deviceID;
     private Integer deviceTypeID;
     private String deviceName;
+    private Boolean status;
     private Integer plotID;
 
-    public Device(Long deviceID, Integer deviceTypeID, String deviceName, Integer plotID) {
+    public Device(Long deviceID, Integer deviceTypeID, String deviceName, Boolean status, Integer plotID) {
         this.deviceID = deviceID;
         this.deviceTypeID = deviceTypeID;
         this.deviceName = deviceName;
+        this.status=status;
         this.plotID = plotID;
     }
 
     @Override
     public String toString() {
-        return "deviceID: "+deviceID+", deviceTypeID: "+deviceTypeID+", deviceName: "+deviceName+", plotID: "+plotID+'\n';
+        return "deviceID: "+deviceID+", deviceTypeID: "+deviceTypeID+", deviceName: "+deviceName+", status: "+status+", plotID: "+plotID+'\n';
     }
 
     public Long getDeviceID() {
@@ -48,5 +50,13 @@ public class Device {
 
     public void setPlotID(Integer plotID) {
         this.plotID = plotID;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }

@@ -42,7 +42,7 @@ public class Sensing {
 
     @Override
     public String toString() {
-        return "deviceID: "+deviceID+", plotID: "+plotID+", soilMoisture: "+soilMoisture+", soilTemperature"+soilTemperature+", humidity: "+humidity+", temperature: "+temperature+", lightLevel: "+lightLevel+", timestamp: "+timeOfMeasurement+"\n";
+        return "sensingId: "+sensingID+", deviceID: "+deviceID+", plotID: "+plotID+", soilMoisture: "+soilMoisture+", soilTemperature"+soilTemperature+", humidity: "+humidity+", temperature: "+temperature+", lightLevel: "+lightLevel+", timestamp: "+timeOfMeasurement+"\n";
     }
 
     public Long getSensingID() {

@@ -9,6 +9,10 @@ import org.json.simple.parser.ParseException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.text.Normalizer;
+import java.util.Date;
+import java.util.regex.Pattern;
 
 public class Helper {
     public static String md5(String str){
@@ -33,5 +37,17 @@ public class Helper {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public static String removeAccent(String s) {
+
+        String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(temp).replaceAll("");
+    }
+
+    public static Timestamp getNow(){
+        Date now = new Date();
+        return new Timestamp(now.getTime());
     }
 }

@@ -109,7 +109,16 @@ create table if not exists Controlling(
     foreign key(PlotID) references Plots(PlotID)on delete restrict on update cascade
 ) engine InnoDB default charset=utf8;
 
--- select * from Plots;
+update Farms set Status = true where FarmID = 5;
+select * from Plots;
+select * from Devices where PlotID in (select PlotID from Plots where FarmID = 1);
+select * from Sensing;
+Select * from Users where UserName = 'a' & UPassword = 'cc175b9c0f1b6a831c399e269772661';
+Select * from Users where UserName = 'admin' and UPassword = '25d55ad283aa400af464c76d713c07ad';
+insert into Farms(FarmType) values (1);
+insert into Plots(Area, PlotTypeID, FarmID) values (null,null,null);
+delete from Devices where 1;
+-- alter table Farms auto_increment = 1;
 -- delete from Locates;
 -- insert into Locates(LocateID, locateName) values (1234,"thắng");
 -- insert into Users(UserName,UPassword) values ("thangdeptrai","1");

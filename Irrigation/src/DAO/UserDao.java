@@ -1,5 +1,6 @@
 package DAO;
 
+import Utilities.Helper;
 import model.User;
 
 import java.sql.ResultSet;
@@ -37,6 +38,36 @@ public class UserDao implements Dao<User> {
         return users;
     }
 
+    public User getByUsernameAndPassword(String username, String password){
+        User user = null;
+        Statement statement=null;
+        String upassword = Helper.md5(password);
+        try {
+            statement = dbConnector.getConnection().createStatement();
+            String sql = "Select * from Users where UserName = '" + username+"' and UPassword = '"+upassword+"';";
+            System.out.println(sql);
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()){
+                user = new User(resultSet.getInt("UserID"),
+                        resultSet.getString("UserName"),
+                        resultSet.getString("UPassword"));
+            }
+            statement.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(statement!=null){
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return user;
+    }
     @Override
     public User getById(int id) {
         Statement statement=null;

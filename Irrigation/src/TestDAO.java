@@ -18,13 +18,13 @@ public class TestDAO {
         }
     }
     public static void main(String[] args) throws IOException, InterruptedException {
-        testLocateDao1();
-        testUserDao();
+//        testLocateDao1();
+//        testUserDao();
         testFarmDao();
-        testPlotDao();
-        testDeviceTypeDao();
-        testDeviceDao();
-        testSensingDao();
+//        testPlotDao();
+//        testDeviceTypeDao();
+//        testDeviceDao();
+//        testSensingDao();
     }
 
     public static void testLocateDao() throws IOException{
@@ -98,11 +98,18 @@ public class TestDAO {
     }
     public static void testFarmDao(){
         FarmDao farmDao = new FarmDao();
-        farmDao.save(new Farm(1,null,null,true,1));
-        List<Farm> farms = farmDao.getAll();
-        for(Farm f:farms){
-            System.out.println(f.toString());
-        }
+
+        farmDao.save(new Farm(null,null,null,null,null));
+//        List<Farm> farms = farmDao.getAll();
+//        for(Farm f:farms){
+//            System.out.println(f.toString());
+//        }
+//        Farm newFarm = new Farm(null,null,null,null,null);
+//        Farm newFarm = new Farm(1,2.0D,1,Boolean.FALSE,1);
+//        Farm oldFarm = farmDao.getById(5);
+//        farmDao.update(oldFarm, newFarm);
+//        farmDao.delete(3);
+
     }
     public static void testPlotDao(){
         PlotDao plotDao = new PlotDao();

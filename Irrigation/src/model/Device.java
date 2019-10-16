@@ -7,6 +7,13 @@ public class Device {
     private Boolean status;
     private Integer plotID;
 
+    public Device(Device device){
+        this.deviceID = device.deviceID;
+        this.deviceTypeID = device.getDeviceTypeID();
+        this.deviceName = device.getDeviceName();
+        this.status = device.getStatus();
+        this.plotID = device.getPlotID();
+    }
     public Device(Long deviceID, Integer deviceTypeID, String deviceName, Boolean status, Integer plotID) {
         this.deviceID = deviceID;
         this.deviceTypeID = deviceTypeID;

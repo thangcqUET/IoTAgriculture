@@ -20,7 +20,7 @@ public class MQTTConnector {
     }
     public MQTTConnector(){
         mqttConnectOptions = new MqttConnectOptions();
-        this.host = "42.112.105.4";
+        this.host = "iotagriculture.ddns.net";
         mqttConnectOptions.setUserName("admin");
         mqttConnectOptions.setPassword("12345678".toCharArray());
         mqttConnectOptions.setAutomaticReconnect(true);
@@ -61,7 +61,7 @@ public class MQTTConnector {
             MqttMessage messageMqtt = new MqttMessage();
             messageMqtt.setPayload(message.getBytes());
             messageMqtt.setQos(2);
-            System.out.println(">>message is published: ");
+            System.out.println(">>message is published in topic '"+topic+"' : ");
             System.out.println(messageMqtt);
             mMqttClient.publish(topic, messageMqtt);
         } catch (MqttException e) {

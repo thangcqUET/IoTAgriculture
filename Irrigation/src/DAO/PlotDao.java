@@ -41,6 +41,34 @@ public class PlotDao implements Dao<Plot> {
         return plots;
     }
 
+    public List<Plot> getByFarmId(Integer farmId){
+        Statement statement= null;
+        List<Plot> plots = new ArrayList<Plot>();
+        try {
+            statement = dbConnector.getConnection().createStatement();
+            String sql = "select * from Plots where FarmID = "+farmId;
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()){
+                Plot plot = new Plot(resultSet.getInt("PlotID"),
+                        resultSet.getFloat("Area"),
+                        resultSet.getInt("PlotTypeID"),
+                        resultSet.getInt("FarmID")
+                );
+                plots.add(plot);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            if(statement!=null){
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return plots;
+    }
     @Override
     public Plot getById(int id) {
         Statement statement;

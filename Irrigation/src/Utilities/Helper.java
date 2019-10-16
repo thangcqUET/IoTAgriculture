@@ -1,7 +1,9 @@
 package Utilities;
 
+import com.mysql.cj.xdevapi.JsonArray;
 import com.mysql.cj.xdevapi.JsonParser;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -28,6 +30,13 @@ public class Helper {
         }
         return result;
     }
+
+    public static Integer mqttMessageToInteger(MqttMessage mqttMessage){
+        byte[] payload = mqttMessage.getPayload();
+        Integer farmId =
+                ((payload[0]|0x00000000)<<24) |((payload[1]|0x00000000)<<16) |((payload[2]|0x00000000)<<8)|((payload[3]|0x00000000));
+        return farmId;
+    }
     public static JSONObject mqttMessageToJsonObject(MqttMessage mqttMessage){
         JSONObject jsonObject = new JSONObject();
         JSONParser jsonParser = new JSONParser();
@@ -39,6 +48,20 @@ public class Helper {
         return jsonObject;
     }
 
+    public static JSONArray mqttMessageToJsonArray(MqttMessage mqttMessage){
+        JSONArray jsonArray = new JSONArray();
+        JSONParser jsonParser = new JSONParser();
+        try {
+            jsonArray = (JSONArray) jsonParser.parse(mqttMessage.toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+
+    public static Integer convertDeviceIdToFarmId(Long deviceId){
+        return (int)(deviceId&0x00000000FFFFFFFF);
+    }
     public static String removeAccent(String s) {
 
         String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
@@ -51,3 +74,4 @@ public class Helper {
         return new Timestamp(now.getTime());
     }
 }
+

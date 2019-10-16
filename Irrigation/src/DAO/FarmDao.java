@@ -74,12 +74,14 @@ public class FarmDao implements Dao<Farm> {
         try {
             statement = dbConnector.getConnection().createStatement();
             String sql = "insert into Farms(LocateID,Area,FarmTypeID,Status,UserID) values " +
-                    "('"+farm.getLocateId()+"',"+farm.getArea()+","+farm.getfarmTypeID()+","+farm.getStatus()+","+farm.getUserID()+")";
+                    "("+farm.getLocateId()+","+farm.getArea()+","+farm.getFarmTypeID()+","+farm.getStatus()+","+farm.getUserID()+")";
             statement.execute(sql,Statement.RETURN_GENERATED_KEYS);
             ResultSet resultSet = statement.getGeneratedKeys();
             while(resultSet.next()){
                 farmId=resultSet.getInt(1);
             }
+            sql = "insert into Plots(Area, PlotTypeID, FarmID) values (null,null,"+farmId+");";
+            statement.execute(sql);
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,11 +91,36 @@ public class FarmDao implements Dao<Farm> {
 
     @Override
     public void update(Farm t_old, Farm t_new) {
-
+        Statement statement;
+        try {
+            statement = dbConnector.getConnection().createStatement();
+            String sql1 = "update Farms set "
+                    + ((t_old.getLocateId().equals(t_new.getLocateId()))?"":("LocateID = "+(t_new.getLocateId())+","))
+                    + ((t_old.getArea().equals(t_new.getArea()))?"":("Area = "+(t_new.getArea())+","))
+                    + ((t_old.getFarmTypeID().equals(t_new.getFarmTypeID()))?"":("FarmTypeID = "+(t_new.getFarmTypeID())+","))
+                    + ((t_old.getStatus().equals(t_new.getStatus()))?"":("Status = "+(t_new.getStatus())+","))
+                    + ((t_old.getUserID().equals(t_new.getUserID()))?"":("UserID = "+(t_new.getUserID())+","));
+            String sql2 = " where FarmID = "+(t_old.getFarmID());
+            String sql = sql1.substring(0,sql1.length()-1)+sql2;
+//            System.out.println(sql);
+            // tranh truong hop khong co noi dung update "update Farms set where FarmID = 4"
+            if(!sql1.equals("update Farms set ")) statement.execute(sql);
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(long id) {
+        Statement statement;
+        try {
+            statement = dbConnector.getConnection().createStatement();
+            String sql = "delete from Farms where FarmID = "+id;
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 }

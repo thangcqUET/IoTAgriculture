@@ -2,10 +2,7 @@ package DAO;
 
 import model.Sensing;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,18 +65,22 @@ public class SensingDao implements Dao<Sensing> {
     public int save(Sensing sensing) {
 
         try {
-            String sql = "insert into Sensing (DeviceID, PlotID, SoilMoisture, SoilTemperature, Humidity,LightLevel,Temperature, TimeOfMeasurement) values (?,?,?,?,?,?,?,?)";
-//                    +
-//                    "("+sensing.getDiviceID()+","+sensing.getPlotID()+","+sensing.getSoilMoisture()+","+sensing.getHumidity()+","+sensing.getLightLevel()+","+sensing.getTemperature()+","+"CURRENT_TIMESTAMP"+")";
+            Long deviceId;
+            Integer plotId, lightLevel;
+            Float soilMoisture, soilTemperature, humidity, temperature;
+            Timestamp timeOfMeasurement;
+            deviceId = sensing.getDeviceID();
+            plotId = sensing.getPlotID();
+            soilMoisture = sensing.getSoilMoisture();
+            soilTemperature = sensing.getSoilTemperature();
+            humidity = sensing.getHumidity();
+            temperature = sensing.getTemperature();
+            lightLevel = sensing.getLightLevel();
+            timeOfMeasurement = sensing.getTimeOfMeasurement();
+            String sql = "insert into Sensing (DeviceID, PlotID, SoilMoisture, SoilTemperature, Humidity,LightLevel,Temperature, TimeOfMeasurement) " +
+                    "values ("+deviceId+","+plotId+","+soilMoisture+","+soilTemperature+","+humidity+","+lightLevel+","+temperature+",?)";
             PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(sql);
-            preparedStatement.setLong(1,sensing.getDeviceID());
-            preparedStatement.setInt(2,sensing.getPlotID());
-            preparedStatement.setFloat(3,sensing.getSoilMoisture());
-            preparedStatement.setFloat(4,sensing.getSoilTemperature());
-            preparedStatement.setFloat(5,sensing.getHumidity());
-            preparedStatement.setFloat(6,sensing.getTemperature());
-            preparedStatement.setInt(7,sensing.getLightLevel());
-            preparedStatement.setTimestamp(8,sensing.getTimeOfMeasurement());
+            preparedStatement.setTimestamp(1,timeOfMeasurement);
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {

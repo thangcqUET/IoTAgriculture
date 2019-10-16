@@ -21,7 +21,7 @@ public class Plot {
 
     @Override
     public String toString() {
-        return "plotID: "+plotID+", area: "+area+", plotTypeID: "+plotTypeID+", farmID: "+farmID+'\n';
+        return "plotID: "+plotID+", area: "+area+", plotTypeID: "+plotTypeID+", farmID: "+farmID;
     }
 
     public Integer getPlotID() {

@@ -9,6 +9,15 @@ public class Farm {
     private Boolean status;
     private Integer userID;
 
+    public Farm(Farm farm){
+        this.farmID = farm.getFarmID();
+        this.locateId = farm.getLocateId();
+        this.area = farm.getArea();
+        this.farmTypeID = farm.getFarmTypeID();
+        this.farmType = farm.getFarmType();
+        this.status = farm.getStatus();
+        this.userID = farm.getUserID();
+    }
     public Farm(Integer locateId, Double area, Integer farmTypeID,Boolean status, Integer userID) {
         this.locateId = locateId;
         this.area = area;
@@ -66,14 +75,6 @@ public class Farm {
 
     public void setArea(Double area) {
         this.area = area;
-    }
-
-    public Integer getfarmTypeID() {
-        return farmTypeID;
-    }
-
-    public void setfarmTypeID(Integer farmTypeID) {
-        this.farmTypeID = farmTypeID;
     }
 
     public void setFarmType(String farmType) {

@@ -1,6 +1,7 @@
 package Connector;
 
 import org.eclipse.paho.client.mqttv3.*;
+import utilites.Helper;
 
 public class MQTTConnector {
     private String host;
@@ -21,17 +22,26 @@ public class MQTTConnector {
     }
     public MQTTConnector(){
         mqttConnectOptions = new MqttConnectOptions();
-        this.host = "42.112.105.4";
+        this.host = "iotagriculture.ddns.net";
         mqttConnectOptions.setUserName("admin");
         mqttConnectOptions.setPassword("12345678".toCharArray());
         mqttConnectOptions.setAutomaticReconnect(true);
         mqttConnectOptions.setCleanSession(true);
-        byte[] payloadOffline = {0,1};
-        mqttConnectOptions.setWill("/status/HGW/offline",payloadOffline,2,false);
     }
-    public MQTTConnector(String host, MqttConnectOptions mqttConnectOptions){
-        this.host= host;
-        this.mqttConnectOptions=mqttConnectOptions;
+    public MQTTConnector(String topicSetWill, Integer farmId){
+        mqttConnectOptions = new MqttConnectOptions();
+        this.host = "iotagriculture.ddns.net";
+        mqttConnectOptions.setUserName("admin");
+        mqttConnectOptions.setPassword("12345678".toCharArray());
+        mqttConnectOptions.setAutomaticReconnect(true);
+        mqttConnectOptions.setCleanSession(true);
+        byte[] payloadOffline = {
+                (byte)((farmId&0xFF000000)>>24),
+                (byte)((farmId&0x00FF0000)>>16),
+                (byte)((farmId&0x0000FF00)>>8),
+                (byte)((farmId&0x000000FF)>>0)
+        };
+        mqttConnectOptions.setWill(topicSetWill,payloadOffline,2,false);
     }
 
     public void connect(){
@@ -62,7 +72,7 @@ public class MQTTConnector {
             MqttMessage messageMqtt = new MqttMessage();
             messageMqtt.setPayload(message.getBytes());
             messageMqtt.setQos(2);
-            System.out.println(">>message is published: ");
+            System.out.println(">>message is published '"+topic+"' :");
             System.out.println(messageMqtt);
             mMqttClient.publish(topic, messageMqtt);
         } catch (MqttException e) {

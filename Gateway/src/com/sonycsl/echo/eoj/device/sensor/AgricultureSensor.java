@@ -538,7 +538,7 @@ public abstract class AgricultureSensor extends DeviceObject {
             return this;
         }
         public Getter reqGetMeasuredSoilTemperatureValue() {
-            reqGetProperty(EPC_AIR_HUMIDITY_VALUE);
+            reqGetProperty(EPC_SOIL_TEMPERATURE_VALUE);
             return this;
         }
         public Getter reqGetMeasuredLightLevelValue() {

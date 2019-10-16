@@ -26,41 +26,55 @@ public class EchonetController {
         mDevices = new ArrayList<DeviceObject>();
         Echo.addEventListener(new Echo.EventListener(){
             @Override
+            public void onFoundNode(EchoNode node) {
+                super.onFoundNode(node);
+                System.out.println("Found node "+node.getNodeProfile());
+            }
+        });
+        Echo.addEventListener(new Echo.EventListener(){
+            @Override
             public void onNewAgricultureSensor(AgricultureSensor device) {
                 super.onNewAgricultureSensor(device);
-                System.out.println("Agriculture Sensor");
+                System.out.println("New Agriculture Sensor");
                 device.setReceiver(new AgricultureSensor.Receiver(){
                     @Override
                     protected void onGetAirHumidity(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success) {
                         super.onGetAirHumidity(eoj, tid, esv, property, success);
+                        System.out.println("eoj: "+eoj+" esv: "+esv+" property: "+property);
                     }
 
                     @Override
                     protected void onGetAirTemperature(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success) {
                         super.onGetAirTemperature(eoj, tid, esv, property, success);
+                        System.out.println("eoj: "+eoj+" esv: "+esv+" property: "+property);
                     }
 
                     @Override
                     protected void onGetSoilMoisture(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success) {
                         super.onGetSoilMoisture(eoj, tid, esv, property, success);
+                        System.out.println("eoj: "+eoj+" esv: "+esv+" property: "+property);
                     }
 
                     @Override
                     protected void onGetSoilTemperature(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success) {
                         super.onGetSoilTemperature(eoj, tid, esv, property, success);
+                        System.out.println("eoj: "+eoj+" esv: "+esv+" property: "+property);
                     }
 
                     @Override
                     protected void onGetLightLevel(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success) {
                         super.onGetLightLevel(eoj, tid, esv, property, success);
+                        System.out.println("eoj: "+eoj+" esv: "+esv+" property: "+property);
                     }
                 });
                 try {
+                    System.out.println("Send req get:");
                     device.get().reqGetMeasuredAirHumidityValue()
                             .reqGetMeasuredAirTemperatureValue()
                             .reqGetMeasuredSoilMoistureValue()
                             .reqGetMeasuredSoilTemperatureValue()
                             .send();
+                    System.out.println("Sent");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -69,8 +83,18 @@ public class EchonetController {
 
         try {
             Echo.start(new DefaultNodeProfile(), new DeviceObject[]{new DefaultController()});
+            NodeProfile.informG().reqInformInstanceListNotification().send();
+
+            Thread.sleep(10000);
             EchoNode[] echoNodes = Echo.getNodes();
-            Thread.sleep(1000);
+            for(EchoNode e: echoNodes){
+                System.out.println(e.getNodeProfile());
+                DeviceObject[] deviceObjects = e.getDevices();
+                for(DeviceObject deviceObject: deviceObjects){
+                    System.out.println(""+deviceObject.getEchoClassCode()+", "+deviceObject.getInstanceCode());
+                }
+                System.out.println("---------------");
+            }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

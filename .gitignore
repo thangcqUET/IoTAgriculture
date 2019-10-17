@@ -94,6 +94,7 @@ cmake-build-*/
 
 #paho
 **/.lck
+**/*.msg
 
 #folder ignore
 **/gitignore/**

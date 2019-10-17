@@ -19,6 +19,7 @@ import com.sonycsl.echo.eoj.profile.NodeProfile;
 import com.sonycsl.echo.eoj.device.DeviceObject;
 import com.sonycsl.echo.processing.defaults.DefaultNodeProfile;
 import com.sonycsl.echo.processing.defaults.DefaultController;
+import dataStructure.DevicesList;
 import dataStructure.GatewayInformation;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
@@ -34,13 +35,6 @@ import static java.security.CryptoPrimitive.MAC;
 public class TestAgricultureSensor {
     public static void main(String[] args) {
         initiateGatewayState();
-
-//        try {
-//            GatewayInformation.getInstance();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        setup1();
     }
 
     public static void startEchonetLiteNetwork(){
@@ -325,7 +319,37 @@ public class TestAgricultureSensor {
         }
     }
 
-    public static void controlDeviceInCallBack(String topic, MqttMessage mqttMessage ){
-
+    public static void controlDeviceInCallBack(String topic, MqttMessage mqttMessage ) throws IOException {
+        if(!topic.equals("/iot_agriculture/controlling/"+GatewayInformation.getInstance().getFarmId())){
+            return;
+        }
+        System.out.println("received controlling packet: "+mqttMessage.toString());
+        JSONObject jsonObject = Helper.mqttMessageToJsonObject(mqttMessage);
+        Long deviceId;
+        Boolean status;
+        if(jsonObject.get("deviceId") instanceof Long) {
+            deviceId = ((Long) jsonObject.get("deviceId"));
+            System.out.println("device: " + deviceId);
+        }else{
+            return;
+        }
+        if(jsonObject.get("status") instanceof Boolean){
+            status = (Boolean) jsonObject.get("status");
+            System.out.println("status: "+status);
+        }else{
+            return;
+        }
+        byte[] on = {0x30}, off = {0x31};
+        byte[] edt = status?on:off;
+        Integer echoObjectCode = Helper.convertGlobalIdDeviceToGlobalIdDevice(deviceId);
+        System.out.println("echoObjectCode: "+echoObjectCode);
+        for(EchoNode echoNode: DevicesList.getInstance().getNodesOnline()){
+            for(DeviceObject deviceObject : echoNode.getDevices()){
+                if(deviceObject.getEchoObjectCode() == echoObjectCode){
+                    deviceObject.set(true).reqSetOperationStatus(edt).send().getESV();
+                    System.out.println("sent Set packet");
+                }
+            }
+        }
     }
 }

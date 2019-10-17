@@ -4,6 +4,7 @@ import com.sonycsl.echo.Echo;
 import com.sonycsl.echo.EchoProperty;
 import com.sonycsl.echo.eoj.EchoObject;
 import com.sonycsl.echo.eoj.device.DeviceObject;
+import com.sonycsl.echo.eoj.device.managementoperation.Switch;
 import com.sonycsl.echo.eoj.device.sensor.AgricultureSensor;
 import com.sonycsl.echo.node.EchoNode;
 import dataStructure.DevicesList;
@@ -74,6 +75,12 @@ public class DataTransfer implements Runnable {
                         mqttDataPacketSender.add(eoj, tid,Flags.LIGHT_LEVEL_IS_RECEIVED,property);
                     }
                 });
+            }
+
+            @Override
+            public void onNewSwitch(Switch device) {
+                super.onNewSwitch(device);
+                System.out.println("New Switch");
             }
         });
         while(true){

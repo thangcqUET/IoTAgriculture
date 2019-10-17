@@ -1,26 +1,25 @@
-import Connector.DBConnector;
+package components;
+
 import Connector.MQTTConnector;
 import DAO.*;
 import Utilities.Helper;
-import com.google.gson.JsonObject;
-
 import model.*;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-public class TestMQTT {
-    private static String host=null;
-    public static void main(String[] args) {
+public class DataCollector {
+
+    public DataCollector() {
+        MQTTConnector mqttConnector;
         String topic = "/iot_agriculture/#";
-        MQTTConnector mqttConnector = new MQTTConnector();
+        mqttConnector = new MQTTConnector();
         mqttConnector.connect();
         mqttConnector.getmMqttClient().setCallback(new MqttCallbackExtended() {
             @Override
@@ -73,14 +72,7 @@ public class TestMQTT {
         });
         mqttConnector.subcribe(topic);
     }
-
-    public static<T> void printAll(List<T> ts){
-        for(int i=0;i<ts.size();i++){
-            System.out.println(ts.get(i).toString());
-        }
-    }
-
-    public static void createFarmId(MqttMessage mqttMessage){
+    private static void createFarmId(MqttMessage mqttMessage){
         JSONObject jsonObject = Helper.mqttMessageToJsonObject(mqttMessage);
         Long randomNumber;
         String username, password;
@@ -113,7 +105,7 @@ public class TestMQTT {
 
     }
 
-    public static void changeFarmId(MqttMessage mqttMessage){
+    private static void changeFarmId(MqttMessage mqttMessage){
         JSONObject jsonObject = Helper.mqttMessageToJsonObject(mqttMessage);
         Long newFarmId;
         Long randomNumber;
@@ -159,7 +151,7 @@ public class TestMQTT {
         }
     }
 
-    public static boolean verifyUser(String username, String password){
+    private static boolean verifyUser(String username, String password){
         MQTTConnector mqttConnector = new MQTTConnector();
         mqttConnector.connect();
         UserDao userDao = new UserDao();
@@ -171,7 +163,7 @@ public class TestMQTT {
         }
     }
 
-    public static void setDeviceId(MqttMessage mqttMessage){
+    private static void setDeviceId(MqttMessage mqttMessage){
         JSONObject jsonObject = Helper.mqttMessageToJsonObject(mqttMessage);
         Long deviceId=null;
         if(jsonObject.get("deviceId") instanceof Long){
@@ -182,7 +174,7 @@ public class TestMQTT {
         deviceDao.save(new Device(deviceId,null,null,true,null));
     }
 
-    public static void notifyGatewayOffline(MqttMessage mqttMessage){
+    private static void notifyGatewayOffline(MqttMessage mqttMessage){
         Integer farmId = Helper.mqttMessageToInteger(mqttMessage);
         System.out.println("Gateway "+farmId+" offline");
         DeviceDao deviceDao = new DeviceDao();
@@ -201,7 +193,7 @@ public class TestMQTT {
         farmDao.update(farm,newFarm);
     }
 
-    public static void notifyGatewayOnline(MqttMessage mqttMessage){
+    private static void notifyGatewayOnline(MqttMessage mqttMessage){
         JSONObject jsonObject = Helper.mqttMessageToJsonObject(mqttMessage);
         Long farmId=null;
         if(jsonObject.get("farmId") instanceof Long){
@@ -215,7 +207,7 @@ public class TestMQTT {
         farmDao.update(oldFarm,newFarm);
     }
 
-    public static void notifyDeviceOffline(MqttMessage mqttMessage){
+    private static void notifyDeviceOffline(MqttMessage mqttMessage){
         JSONObject jsonObject = Helper.mqttMessageToJsonObject(mqttMessage);
         Long deviceId=null;
         if(jsonObject.get("deviceId") instanceof Long){
@@ -228,7 +220,7 @@ public class TestMQTT {
         deviceDao.update(oldDevice,newDevice);
     }
 
-    public static void notifyDevicesOffline(MqttMessage mqttMessage){
+    private static void notifyDevicesOffline(MqttMessage mqttMessage){
         System.out.println("Devices offline");
         JSONArray jsonArray = Helper.mqttMessageToJsonArray(mqttMessage);
         DeviceDao deviceDao = new DeviceDao();
@@ -241,7 +233,7 @@ public class TestMQTT {
         }
     }
 
-    public static void notifyDeviceOnline(MqttMessage mqttMessage){
+    private static void notifyDeviceOnline(MqttMessage mqttMessage){
         JSONObject jsonObject = Helper.mqttMessageToJsonObject(mqttMessage);
         Long deviceId=null;
         if(jsonObject.get("deviceId") instanceof Long){
@@ -294,7 +286,7 @@ public class TestMQTT {
 
     }
 
-    public static void observeSensor(MqttMessage mqttMessage){
+    private static void observeSensor(MqttMessage mqttMessage){
         System.out.println("received data sensor!");
         JSONObject jsonObject = Helper.mqttMessageToJsonObject(mqttMessage);
         System.out.println(jsonObject.toJSONString());

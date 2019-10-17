@@ -47,6 +47,7 @@ public class DeviceManager implements Runnable{
                 devicesList.add(eoj.getNode().getAddress());
                 stateDevicesBeforeTurnOffAll.put(eoj.getNode(),Boolean.FALSE);
             }
+
             @Override
             public void onFoundEchoObject(EchoObject eoj) {
                 super.onFoundEchoObject(eoj);

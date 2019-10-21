@@ -3,13 +3,14 @@ package components;
 import Connector.MQTTConnector;
 import Utilities.Helper;
 import components.controller.Controller;
+import components.controller.CycleController;
 import components.controller.LoopController;
 import org.json.simple.JSONObject;
 
 public class ControllingDataSender {
     private Controller controller;
     public ControllingDataSender() {
-        controller = new LoopController(1685555620347924L);
+        controller = new CycleController(1685555620347924L);
         final MQTTConnector mqttConnector;
         mqttConnector = new MQTTConnector();
         mqttConnector.connect();

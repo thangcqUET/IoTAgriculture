@@ -90,6 +90,8 @@ cmake-build-*/
 **/.idea/**/markdown-navigator.xml
 **/.idea/**/markdown-navigator/
 
+**/.idea/artifacts/**
+
 # End of https://www.gitignore.io/api/intellij
 
 #paho
@@ -100,3 +102,5 @@ cmake-build-*/
 **/gitignore/**
 
 **/*.class
+
+**/target/**

@@ -1,6 +1,8 @@
 package Connector;
 
 import org.eclipse.paho.client.mqttv3.*;
+import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
+
 public class MQTTConnector {
     private String host;
 
@@ -35,7 +37,8 @@ public class MQTTConnector {
 
     public void connect(){
         try {
-            mMqttClient = new MqttClient("tcp://"+this.host+":1883",MqttClient.generateClientId());
+            MqttClientPersistence mqttClientPersistence = new MqttDefaultFilePersistence("paho");
+            mMqttClient = new MqttClient("tcp://"+this.host+":1883",MqttClient.generateClientId(),mqttClientPersistence);
             mMqttClient.connect(mqttConnectOptions);
         } catch (MqttException e1) {
             // TODO Auto-generated catch block

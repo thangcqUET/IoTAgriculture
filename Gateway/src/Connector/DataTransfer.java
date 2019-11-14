@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class DataTransfer implements Runnable {
     private int timeToUpdateData;
     public DataTransfer(){
-        timeToUpdateData = 5000;
+        timeToUpdateData = 120000;
     }
 
     public DataTransfer(int timeToUpdateData) {

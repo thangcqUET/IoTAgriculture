@@ -45,7 +45,6 @@ public class UserDao implements Dao<User> {
         try {
             statement = dbConnector.getConnection().createStatement();
             String sql = "Select * from Users where UserName = '" + username+"' and UPassword = '"+upassword+"';";
-            System.out.println(sql);
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
                 user = new User(resultSet.getInt("UserID"),

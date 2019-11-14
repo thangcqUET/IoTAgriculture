@@ -30,6 +30,8 @@ create table if not exists PlotTypes(
 create table if not exists Locates(
 	LocateID int not null,
     LocateName varchar(50),
+    Lon float,
+    Lat float,
     primary key(LocateID)
 ) engine InnoDB default charset=utf8;
 create table if not exists Farms(
@@ -37,6 +39,7 @@ create table if not exists Farms(
     LocateID int,
     Area float8,
     FarmTypeID int,
+    Status bool,
     UserID int,
     primary key(FarmID),
 	foreign key(UserID) references Users(UserID)on delete restrict on update cascade,
@@ -58,6 +61,7 @@ create table if not exists Devices(
 	DeviceID bigint not null,
     DeviceTypeID int,
     DeviceName varchar(50),
+    Status bool,
     PlotID int,
     primary key(DeviceID),
 	foreign key(DeviceTypeID) references DeviceTypes(DeviceTypeID)on delete restrict on update cascade,
@@ -85,6 +89,7 @@ create table if not exists Forecast(
     PlotID int,
     Precipitation float,
     Temperature float,
+    Humidity float,
     ForecastStatus varchar(50),
     TimeOfMeasurement datetime,
     primary key(ForecastID),
@@ -104,8 +109,19 @@ create table if not exists Controlling(
     foreign key(PlotID) references Plots(PlotID)on delete restrict on update cascade
 ) engine InnoDB default charset=utf8;
 
--- select * from Sensing;
+-- update Farms set Status = true where FarmID = 5;
+-- select * from Users;
+-- select * from Devices where PlotID in (select PlotID from Plots where FarmID = 20);
+-- select * from Farms;
+-- Select * from Users where UserName = 'a' & UPassword = 'cc175b9c0f1b6a831c399e269772661';
+-- Select * from Users where UserName = 'admin' and UPassword = '25d55ad283aa400af464c76d713c07ad';
+-- insert into Farms(FarmType) values (1);
+-- insert into Plots(Area, PlotTypeID, FarmID) values (null,null,20);
+-- -- alter table Farms auto_increment = 1;
+-- delete from Devices where Status = true;
 
+
+-- insert into Locates(LocateID, locateName) values (1234,"thắng");
 -- insert into Users(UserName,UPassword) values ("thangdeptrai","1");
 -- insert into FarmTypes(FarmType) values ("Trong hanh");
 -- insert into FarmTypes(FarmType) values ("Trong cai");

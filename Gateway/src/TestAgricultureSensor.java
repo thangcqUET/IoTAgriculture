@@ -23,6 +23,7 @@ import dataStructure.DevicesList;
 import dataStructure.GatewayInformation;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONException;
 import org.json.simple.JSONObject;
@@ -33,15 +34,45 @@ import javax.swing.plaf.SplitPaneUI;
 import static java.security.CryptoPrimitive.MAC;
 
 public class TestAgricultureSensor {
+    private static Integer timeToUpdateDevices;
+    private static Integer timeToUpdateData;
     public static void main(String[] args) {
+        if(args.length!=0){
+            timeToUpdateDevices = Integer.parseInt(args[0]);
+            timeToUpdateData = Integer.parseInt(args[1]);
+        }else{
+            timeToUpdateDevices = 10000;
+            timeToUpdateData = 10000;
+        }
+        //get Ip gateway: wrong
+        //-------------------------------------
+//        MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
+//        mqttConnectOptions.setUserName("admin");
+//        mqttConnectOptions.setPassword("12345678".toCharArray());
+//        mqttConnectOptions.setAutomaticReconnect(true);
+//        mqttConnectOptions.setCleanSession(true);
+//        InetAddress inetAddress = null;
+//        try {
+//            inetAddress = InetAddress.getLocalHost();
+//        } catch (UnknownHostException e) {
+//            e.printStackTrace();
+//        }
+//        for(int i=0;i<inetAddress.getAddress().length;i++){
+//            System.out.print(inetAddress.getAddress()[i]+" ");
+//        }
+//        mqttConnectOptions.setWill("iot_agriculture/gateway/ip",inetAddress.getAddress(),2,true);
+//        MQTTConnector mqttConnectorIP = new MQTTConnector();
+//        mqttConnectorIP.connect();
+        //-----------------------------------------
         initiateGatewayState();
+
     }
 
     public static void startEchonetLiteNetwork(){
         try {
             Echo.start(new DefaultNodeProfile(), new DeviceObject[]{new DefaultController()});
-            Thread devicesManager = new Thread(new DeviceManager(10000));
-            Thread packetTransfer = new Thread(new DataTransfer(5000));
+            Thread devicesManager = new Thread(new DeviceManager(timeToUpdateDevices));
+            Thread packetTransfer = new Thread(new DataTransfer(timeToUpdateData));
             devicesManager.start();
             packetTransfer.start();
         } catch (IOException e) {
@@ -57,8 +88,8 @@ public class TestAgricultureSensor {
             GatewayInformation gatewayInformation = GatewayInformation.getInstance();
             System.out.println(gatewayInformation.getFarmId());
             System.out.println("Information found!");
-            int chose = chooseWhenHaveInformation();
-
+//            int chose = chooseWhenHaveInformation();
+            int chose = 3;
             switch (chose){
                 case 1:{
                     Helper.deleteFile("GatewayInformation.dat");

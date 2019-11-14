@@ -24,7 +24,6 @@ public class DataCollector {
         mqttConnector.getmMqttClient().setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
-
             }
 
             @Override
@@ -34,6 +33,7 @@ public class DataCollector {
 
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+                System.out.println(topic);
                 if(topic.equals("/iot_agriculture/identify/farm_id/get")){
                     createFarmId(mqttMessage);
                 }

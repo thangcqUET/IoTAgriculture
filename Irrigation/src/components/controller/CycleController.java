@@ -18,7 +18,7 @@ public class CycleController extends Controller {
 
     public CycleController(Long deviceId) {
         super(deviceId);
-        this.wateringInterval = 30000;
+        this.wateringInterval = 120000;
     }
 
     @Override

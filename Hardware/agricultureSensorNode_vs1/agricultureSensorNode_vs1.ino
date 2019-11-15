@@ -374,7 +374,7 @@ void createWebServer(int webtype)
     server.on("/setting", []() {
       String qsid = server.arg("ssid");
       String qpass = server.arg("pass");
-      if (qsid.length() > 0 && qpass.length() > 0) {
+      if (qsid.length() > 0 && qpass.length() >= 0) {
         Serial.println("clearing eeprom");
         for (int i = 0; i < 96; ++i) {
           EEPROM.write(i, 0);

@@ -75,7 +75,7 @@ public class DeviceManager implements Runnable{
                 ArrayList<EchoNode> nodesOffline;
                 //--------------------------------------
                 devicesList.turnOffAll();
-                NodeProfile.informG().reqInformInstanceListNotification().send();
+                System.out.println("Packet = "+NodeProfile.informG().reqInformInstanceListNotification().send().toString());
 
                 Thread.sleep(timeToUpdateDevices);
 

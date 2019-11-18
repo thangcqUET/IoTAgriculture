@@ -34,14 +34,17 @@ import javax.swing.plaf.SplitPaneUI;
 import static java.security.CryptoPrimitive.MAC;
 
 public class TestAgricultureSensor {
+    private static Integer mode; //0 default: don't must enter input || 1 need config: must enter input
     private static Integer timeToUpdateDevices;
     private static Integer timeToUpdateData;
     public static void main(String[] args) {
         if(args.length!=0){
-            timeToUpdateDevices = Integer.parseInt(args[0]);
-            timeToUpdateData = Integer.parseInt(args[1]);
+            mode = Integer.parseInt(args[0]);
+            timeToUpdateDevices = Integer.parseInt(args[1]);
+            timeToUpdateData = Integer.parseInt(args[2]);
         }else{
-            timeToUpdateDevices = 10000;
+            mode = 0;
+            timeToUpdateDevices = 5000;
             timeToUpdateData = 10000;
         }
         //get Ip gateway: wrong

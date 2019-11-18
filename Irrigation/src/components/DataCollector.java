@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DataCollector {
-
     public DataCollector() {
+
         MQTTConnector mqttConnector;
         String topic = "/iot_agriculture/#";
         mqttConnector = new MQTTConnector();
@@ -243,40 +243,50 @@ public class DataCollector {
         final DeviceDao deviceDao = new DeviceDao();
         Device device = deviceDao.getById(deviceId);
         if(device == null){
+            final Boolean setPlotDefault = true;// *******won't need to enter input Plot ID********
             final Long finalDeviceId = deviceId;
             final Integer farmId = Helper.convertDeviceIdToFarmId(deviceId);
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Integer plotId;
-                    PlotDao plotDao = new PlotDao();
-                    List<Plot> plots = new ArrayList<Plot>();
-                    do {
-                        plots = plotDao.getByFarmId(farmId);
-                        System.out.println("PlotIds in Farm "+ farmId);
-                        for(Plot plot : plots){
-                            System.out.println(plot.toString());
-                        }
-                        System.out.println("Enter plotId for device " + finalDeviceId +" (enter <=0 to skip)");
-                        Scanner scanner = new Scanner(System.in);
-                        plotId = scanner.nextInt();
-                        scanner.nextLine();
-                        System.out.println("plotId: "+plotId);
-                        if(plotId<=0) break;
-                        Boolean isEqual = Boolean.FALSE;
-                        for(Plot plot:plots){
-                            System.out.println("plotId: "+plot.getPlotID());
-                            if(plotId == plot.getPlotID()) {
-                                isEqual=Boolean.TRUE;
-                                break;
+                    if(setPlotDefault == true){
+                        System.out.println("plot default = 1");
+                        Integer plotId = 1;
+                        deviceDao.save(new Device(finalDeviceId, null, null, Boolean.TRUE, plotId));
+                        Thread.currentThread().interrupt();
+                    }else {
+                        Integer plotId = 1;
+                        PlotDao plotDao = new PlotDao();
+                        List<Plot> plots = new ArrayList<Plot>();
+                        do {
+                            plots = plotDao.getByFarmId(farmId);
+                            System.out.println("PlotIds in Farm " + farmId);
+                            for (Plot plot : plots) {
+                                System.out.println(plot.toString());
                             }
-                        }
-                        if(isEqual==Boolean.TRUE) break;
-                        System.out.println("PlotId don't exist! Retry!");
-                    } while (Boolean.TRUE);
-                    deviceDao.save(new Device(finalDeviceId, null, null, Boolean.TRUE, plotId));
+                            System.out.println("Enter plotId for device " + finalDeviceId + " (enter <=0 to skip)");
+                            Scanner scanner = new Scanner(System.in);
+                            plotId = scanner.nextInt();
+                            scanner.nextLine();
+                            System.out.println("plotId: " + plotId);
+                            if (plotId <= 0) break;
+                            Boolean isEqual = Boolean.FALSE;
+                            for (Plot plot : plots) {
+                                System.out.println("plotId: " + plot.getPlotID());
+                                if (plotId == plot.getPlotID()) {
+                                    isEqual = Boolean.TRUE;
+                                    break;
+                                }
+                            }
+                            if (isEqual == Boolean.TRUE) break;
+                            System.out.println("PlotId don't exist! Retry!");
+                        } while (Boolean.TRUE);
+                        deviceDao.save(new Device(finalDeviceId, null, null, Boolean.TRUE, plotId));
+                        Thread.currentThread().interrupt();
+                    }
                 }
             });
+
             thread.start();
         }else{
             Device newDevice = new Device(device);

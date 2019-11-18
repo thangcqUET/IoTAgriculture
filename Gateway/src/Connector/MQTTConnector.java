@@ -22,7 +22,7 @@ public class MQTTConnector {
         mqttConnectOptions.setCleanSession(true);
     }
     public MQTTConnector(MqttConnectOptions mqttConnectOptions){
-        this.host = "iotagriculture.ddns.net";
+        this.host = "localhost";//"iotagriculture.ddns.net";
         this.mqttConnectOptions = mqttConnectOptions;
     }
     public MQTTConnector(){

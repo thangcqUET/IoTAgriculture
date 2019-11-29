@@ -72,6 +72,7 @@ public class MqttDataPacketSender {
                 mqttConnector.connect();
                 receivedStatus=0b00000;
                 mqttConnector.publishMessage(jsonObject.toJSONString(),"/iot_agriculture/monitoring");
+                mqttConnector.disconnect();
                 return true;
             }
             return false;

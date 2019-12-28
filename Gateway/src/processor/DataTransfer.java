@@ -1,4 +1,4 @@
-package Connector;
+package processor;
 
 import com.sonycsl.echo.Echo;
 import com.sonycsl.echo.EchoProperty;
@@ -36,14 +36,6 @@ public class DataTransfer implements Runnable {
                 super.onNewAgricultureSensor(device);
                 System.out.println("New agriculture sensor");
                 device.setReceiver(new AgricultureSensor.Receiver(){
-                    Float airTemperature;
-                    Float airHumidity;
-                    Float soilTemperature;
-                    Float soilMoisture;
-                    Integer lightLevel;
-                    byte receivedStatus = 0b00000;
-                    JSONObject jsonObject = new JSONObject();
-                    MQTTConnector mqttConnector = new MQTTConnector();
                     MqttDataPacketSender mqttDataPacketSender = new MqttDataPacketSender();
                     @Override
                     protected void onGetAirTemperature(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success) {

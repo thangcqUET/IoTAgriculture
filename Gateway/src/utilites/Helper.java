@@ -50,7 +50,14 @@ public class Helper {
     public static Long convertLocalIdDeviceToGlobalIdDevice(Integer localIdDevice, Integer FarmId){
         return ((localIdDevice|0x0L)<<32) | FarmId;
     }
-    public static Integer convertGlobalIdDeviceToGlobalIdDevice(Long globalIdDevice){
+    public static Integer convertGlobalIdDeviceToLocalIdDevice(Long globalIdDevice){
         return Long.valueOf(globalIdDevice>>32).intValue();
+    }
+    public static void printShorts(Short[] a, int length){
+        System.out.println("array:");
+        for(int i = 0;i<length;i++){
+            System.out.print(a[i]+" ");
+        }
+        System.out.println();
     }
 }

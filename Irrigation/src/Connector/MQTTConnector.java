@@ -4,7 +4,7 @@ import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
 public class MQTTConnector {
-    private String host;
+    private String host = "localhost";
 
     public MqttClient getmMqttClient() {
         return mMqttClient;
@@ -22,7 +22,7 @@ public class MQTTConnector {
     }
     public MQTTConnector(){
         mqttConnectOptions = new MqttConnectOptions();
-        this.host = "iotagriculture.ddns.net";
+//        this.host = "iotagriculture.ddns.net";
         mqttConnectOptions.setUserName("admin");
         mqttConnectOptions.setPassword("12345678".toCharArray());
         mqttConnectOptions.setAutomaticReconnect(true);

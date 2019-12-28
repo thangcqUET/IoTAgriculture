@@ -1,51 +1,41 @@
 import java.io.*;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Random;
 import java.util.Scanner;
 
-import Connector.DataTransfer;
-import Connector.DeviceManager;
+import processor.ControlReceiver;
+import processor.DataTransfer;
+import processor.DeviceManager;
 import Connector.MQTTConnector;
 import com.sonycsl.echo.Echo;
-import com.sonycsl.echo.eoj.EchoObject;
-import com.sonycsl.echo.eoj.device.sensor.AgricultureSensor;
-import com.sonycsl.echo.eoj.device.sensor.HumiditySensor;
-import com.sonycsl.echo.eoj.device.sensor.TemperatureSensor;
-import com.sonycsl.echo.node.EchoNode;
-import com.sonycsl.echo.eoj.profile.NodeProfile;
 import com.sonycsl.echo.eoj.device.DeviceObject;
 import com.sonycsl.echo.processing.defaults.DefaultNodeProfile;
 import com.sonycsl.echo.processing.defaults.DefaultController;
-import dataStructure.DevicesList;
 import dataStructure.GatewayInformation;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.json.JSONException;
 import org.json.simple.JSONObject;
 import utilites.Helper;
 
-import javax.swing.plaf.SplitPaneUI;
-
-import static java.security.CryptoPrimitive.MAC;
-
 public class TestAgricultureSensor {
     private static Integer mode; //0 default: don't must enter input || 1 need config: must enter input
-    private static Integer timeToUpdateDevices;
+    private static Integer timeToWaitUpdateDevices;
+    private static Integer timeToReUpdateDevices;
     private static Integer timeToUpdateData;
+    private static Integer timeToUpdateOperationStatus;
     public static void main(String[] args) {
         if(args.length!=0){
             mode = Integer.parseInt(args[0]);
-            timeToUpdateDevices = Integer.parseInt(args[1]);
-            timeToUpdateData = Integer.parseInt(args[2]);
+            timeToWaitUpdateDevices = Integer.parseInt(args[1]);
+            timeToReUpdateDevices = Integer.parseInt(args[2]);
+            timeToUpdateData = Integer.parseInt(args[3]);
+//            timeToUpdateOperationStatus = Integer.parseInt(args[3]);
         }else{
             mode = 0;
-            timeToUpdateDevices = 5000;
+            timeToWaitUpdateDevices = 5000;
+            timeToReUpdateDevices = 10000;
             timeToUpdateData = 10000;
+//            timeToUpdateOperationStatus = 10000;
         }
         //get Ip gateway: wrong
         //-------------------------------------
@@ -74,9 +64,11 @@ public class TestAgricultureSensor {
     public static void startEchonetLiteNetwork(){
         try {
             Echo.start(new DefaultNodeProfile(), new DeviceObject[]{new DefaultController()});
-            Thread devicesManager = new Thread(new DeviceManager(timeToUpdateDevices));
+            Thread devicesManager = new Thread(new DeviceManager(timeToWaitUpdateDevices, timeToReUpdateDevices));
             Thread packetTransfer = new Thread(new DataTransfer(timeToUpdateData));
+//            Thread operationStatusManager = new Thread(new OperationStatusManager(timeToUpdateOperationStatus));
             devicesManager.start();
+//            operationStatusManager.start();
             packetTransfer.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -353,37 +345,17 @@ public class TestAgricultureSensor {
         }
     }
 
-    public static void controlDeviceInCallBack(String topic, MqttMessage mqttMessage ) throws IOException {
-        if(!topic.equals("/iot_agriculture/controlling/"+GatewayInformation.getInstance().getFarmId())){
-            return;
-        }
-        System.out.println("received controlling packet: "+mqttMessage.toString());
-        JSONObject jsonObject = Helper.mqttMessageToJsonObject(mqttMessage);
-        Long deviceId;
-        Boolean status;
-        if(jsonObject.get("deviceId") instanceof Long) {
-            deviceId = ((Long) jsonObject.get("deviceId"));
-            System.out.println("device: " + deviceId);
-        }else{
-            return;
-        }
-        if(jsonObject.get("status") instanceof Boolean){
-            status = (Boolean) jsonObject.get("status");
-            System.out.println("status: "+status);
-        }else{
-            return;
-        }
-        byte[] on = {0x30}, off = {0x31};
-        byte[] edt = status?on:off;
-        Integer echoObjectCode = Helper.convertGlobalIdDeviceToGlobalIdDevice(deviceId);
-        System.out.println("echoObjectCode: "+echoObjectCode);
-        for(EchoNode echoNode: DevicesList.getInstance().getNodesOnline()){
-            for(DeviceObject deviceObject : echoNode.getDevices()){
-                if(deviceObject.getEchoObjectCode() == echoObjectCode){
-                    deviceObject.set(true).reqSetOperationStatus(edt).send().getESV();
-                    System.out.println("sent Set packet");
-                }
+    public static void controlDeviceInCallBack(String topic, MqttMessage mqttMessage ){
+        try {
+            if(!topic.equals("/iot_agriculture/controlling/"+GatewayInformation.getInstance().getFarmId())){
+                return;
             }
+            System.out.println("received controlling packet: "+mqttMessage.toString());
+            Thread controlReceiver = new Thread(new ControlReceiver(mqttMessage));
+            controlReceiver.start();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
+
     }
 }

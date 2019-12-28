@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 public class ControllingDataSender {
     private Controller controller;
     public ControllingDataSender() {
-        controller = new CycleController(1685555620347924L);
+        controller = new LoopController(1685559915315201L);
         final MQTTConnector mqttConnector;
         mqttConnector = new MQTTConnector();
         mqttConnector.connect();

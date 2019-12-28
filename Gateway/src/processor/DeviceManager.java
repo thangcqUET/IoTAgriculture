@@ -1,5 +1,6 @@
-package Connector;
+package processor;
 
+import Connector.MQTTConnector;
 import com.sonycsl.echo.Echo;
 import com.sonycsl.echo.eoj.EchoObject;
 import com.sonycsl.echo.eoj.device.DeviceObject;
@@ -24,14 +25,16 @@ public class DeviceManager implements Runnable{
     HashMap<EchoNode,Byte> devicesOfflineBeforeTurnOffAll;
     HashMap<EchoNode,Byte> devicesOnlineBeforeTurnOffAll;
     HashMap<EchoNode, Boolean> stateDevicesBeforeTurnOffAll;
-    int timeToUpdateDevices;
+    int timeToWaitUpdateDevices;
+    int timeToReUpdateDevices;
     public DeviceManager(){
-        timeToUpdateDevices = 10000;
+        timeToWaitUpdateDevices = 10000;
         devicesList = DevicesList.getInstance();
     }
 
-    public DeviceManager(int timeToUpdateDevices) {
-        this.timeToUpdateDevices = timeToUpdateDevices;
+    public DeviceManager(int timeToWaitUpdateDevices, int timeToReUpdateDevices) {
+        this.timeToWaitUpdateDevices = timeToWaitUpdateDevices;
+        this.timeToReUpdateDevices = timeToReUpdateDevices;
         devicesList = DevicesList.getInstance();
         devicesOfflineBeforeTurnOffAll = new HashMap<EchoNode,Byte>();
         devicesOnlineBeforeTurnOffAll = new HashMap<EchoNode,Byte>();
@@ -51,22 +54,27 @@ public class DeviceManager implements Runnable{
             @Override
             public void onFoundEchoObject(EchoObject eoj) {
                 super.onFoundEchoObject(eoj);
-                System.out.println("Found echo object: "+eoj);
-                devicesList.turnOn(eoj.getNode().getAddress());
-                if(!stateDevicesBeforeTurnOffAll.get(eoj.getNode())){
-                    MQTTConnector mqttConnector = new MQTTConnector();
-                    mqttConnector.connect();
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        GatewayInformation gatewayInformation = GatewayInformation.getInstance();
-                        jsonObject.put("deviceId", Helper.convertLocalIdDeviceToGlobalIdDevice(eoj.getEchoObjectCode(), gatewayInformation.getFarmId()));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+//                System.out.println("Found echo object: "+eoj);
+                try {
+                    devicesList.turnOn(eoj.getNode().getAddress());
+                    if(!stateDevicesBeforeTurnOffAll.get(eoj.getNode())){
+                        MQTTConnector mqttConnector = new MQTTConnector();
+                        mqttConnector.connect();
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            GatewayInformation gatewayInformation = GatewayInformation.getInstance();
+                            jsonObject.put("deviceId", Helper.convertLocalIdDeviceToGlobalIdDevice(eoj.getEchoObjectCode(), gatewayInformation.getFarmId()));
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        String topic = "/iot_agriculture/status/device/online";
+                        mqttConnector.publishMessage(jsonObject.toJSONString(),topic);
+                        mqttConnector.disconnect();
                     }
-                    String topic = "/iot_agriculture/status/device/online";
-                    mqttConnector.publishMessage(jsonObject.toJSONString(),topic);
-                    mqttConnector.disconnect();
+                }catch (java.lang.NullPointerException e){
+                    System.out.println("devicesList null");
                 }
+
             }
         });
         stateDevicesBeforeTurnOffAll = devicesList.getDevices();
@@ -75,11 +83,9 @@ public class DeviceManager implements Runnable{
                 ArrayList<EchoNode> nodesOffline;
                 //--------------------------------------
                 devicesList.turnOffAll();
-                System.out.println("Packet = "+NodeProfile.informG().reqInformInstanceListNotification().send().toString());
-
-                Thread.sleep(timeToUpdateDevices);
-
-
+//                System.out.println("Packet = "+NodeProfile.informG().reqInformInstanceListNotification().send().toString());
+                NodeProfile.informG().reqInformInstanceListNotification().send();
+                Thread.sleep(timeToWaitUpdateDevices);
                 //--------------------------------------
                 nodesOffline = devicesList.getNodesOffline();
                 MQTTConnector mqttConnector = new MQTTConnector();
@@ -88,7 +94,6 @@ public class DeviceManager implements Runnable{
                 ArrayList<Long> newDevicesOffline = new ArrayList<Long>();
                 for(EchoNode echoNode: nodesOffline){
                     if(stateDevicesBeforeTurnOffAll.get(echoNode)){
-                        System.out.println("length echoNode: "+echoNode.getDevices().length);
                         for(DeviceObject deviceObject : echoNode.getDevices()) {
                             Long globalDeviceId = Helper.convertLocalIdDeviceToGlobalIdDevice(deviceObject.getEchoObjectCode(),GatewayInformation.getInstance().getFarmId());
                             newDevicesOffline.add(globalDeviceId);
@@ -102,7 +107,8 @@ public class DeviceManager implements Runnable{
                 mqttConnector.disconnect();
 
                 stateDevicesBeforeTurnOffAll = devicesList.getDevices();
-                System.out.println(devicesList.toString());
+//                System.out.println(devicesList.toString());
+                Thread.sleep(timeToReUpdateDevices);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

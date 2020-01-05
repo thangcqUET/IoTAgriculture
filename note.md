@@ -169,9 +169,7 @@
 - Lấy dữ liệu
 - Kiểu trả về: Json
 
-## BUG
-- Khi thêm ControllingDataSender vào thì DataCollector không nhận được gói tin Gateway offline khi Gateway tắt nữa
-- Khi điều khiển máy bơm bật hoặc tắt thì máy bơm bị mất kết nối và rơi vào  trạng thái offline máy bơm sẽ không được bật hoặc tắt
+
 
 
 ## Dùng SSH
@@ -181,17 +179,6 @@ kết nối tới 1 server B thông qua server A
 - Tạo SOCKS5: ssh userA@addressA -D portSOCKS5. Lệnh này mở 1 cổng ở localhost để khi truy cập vào cổng này ta có thể truy cập đc vào máy A
 - Tạo kết nối với máy B thông qua SOCKS5: ssh -o ProxyCommand="nc -x localhost:port_number %h %p" user@B. trong đó nc là một chương trình (k rõ ch/tr gì), %h là host, %p là port. Khi này ta có thể kết nối tới máy B thông qua máy A dựa vào port đã mở SOCKS5
 
-
-
-lấy dữ liệu thời tiết
-paper
-các hệ thống tưới tự động ở VN
-hệ thống mạng như thế nào
-
-chuẩn bị cho phân tích dữ liệu
-tìm hiểu các mô hình học máy
-nối sim vs Pi
-cài TCP hoặc truyền tin tin cậy  cho Gateway
 
 
 # Tự khởi động service trên raspberry pi
@@ -243,6 +230,24 @@ journalctl -f -u gateway
 - mong muốn gateway gửi gói tin dò mạng ngay khi bật nhưng sau 1 thời gian nó ms gửi
 - bật gateway lên trước và sau đó mới bật server thì xảy ra điều gì
 - Khi bật đồng thời AP Wifi và Gateway thì Gateway không kết nối được với server
+- Connection pool
+- Khi không có các phần giao thức ban đầu nhưng hệ thống vẫn lưu bình thường
+
+## BUG
+- Khi thêm ControllingDataSender vào thì DataCollector không nhận được gói tin Gateway offline khi Gateway tắt nữa
+- Khi điều khiển máy bơm bật hoặc tắt thì máy bơm bị mất kết nối và rơi vào  trạng thái offline máy bơm sẽ không được bật hoặc tắt
+  
+## các chức năng cần thêm
+- lấy dữ liệu từ API thời tiết
+- điều khiển bơm
+- tự động hóa quy trình phần gateway(hiện tại đang set mặc định)
+## đang thực hiện, cần chú ý:
+- hàm getConnection() trong dbConnector
+  - thực hiện việc khởi tạo kết nối khi kết nối bị ngắt sau một thời gian không sử dụng
+  - Exception liên quan: 
+    ```
+    jdbc.exceptions.CommunicationsException: The last packet successfully
+    ```
 
 ## Các câu lệnh thường dùng
 - SSH:
@@ -258,3 +263,4 @@ journalctl -f -u gateway
   ```
     scp -o ProxyCommand="nc -x localhost:15101 %h %p" root@10.10.1.99:/var/lib/mysql-files/sensing.csv /home/caothang/Documents/research/Agriculture/IoTAgriculture/DB/
   ```
+  

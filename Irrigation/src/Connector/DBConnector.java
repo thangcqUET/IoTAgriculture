@@ -33,7 +33,11 @@ public class DBConnector{
         return dbConnector;
     }
 
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
+            //May be error, need to recheck
+        if(connection.isClosed()) {
+            connection = DriverManager.getConnection(DB_URL, USER, PASS);
+        }
         return connection;
     }
 

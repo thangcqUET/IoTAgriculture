@@ -22,6 +22,6 @@ public class MainClass {
             farmDao.save(new Farm(null,null,null,null,1));
         }
         DataCollector dataCollector = new DataCollector();
-        ControllingDataSender controllingDataSender = new ControllingDataSender();
+//        ControllingDataSender controllingDataSender = new ControllingDataSender();
     }
 }

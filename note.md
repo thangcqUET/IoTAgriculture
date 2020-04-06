@@ -182,13 +182,15 @@ kết nối tới 1 server B thông qua server A
 
 
 # Tự khởi động service trên raspberry pi
-Tạo file thực thi và cấp quyền
+Tạo file thực thi và cấp quyền tại thư mục: /usr/bin/
   - filename : gateway
   - content: 
 ```
 cd /path/Gateway_jar/ 
 java -jar Gateway.jar
 ```
+cấp quyền: sudo chmod +x /usr/bin/service_name
+
 Tạo file service trong /etc/systemd/system/
 ``` 
 [Unit]
@@ -263,4 +265,28 @@ journalctl -f -u gateway
   ```
     scp -o ProxyCommand="nc -x localhost:15101 %h %p" root@10.10.1.99:/var/lib/mysql-files/sensing.csv /home/caothang/Documents/research/Agriculture/IoTAgriculture/DB/
   ```
-  
+## Về hệ thống tưới tiêu:
+- Plot Id sẽ là 1 đơn vị tưới tiêu, có nghĩa trên 1 plot sẽ có dữ liệu cảm biến cho plot đó và sẽ có 1 máy bơm thực hiện tưới tiêu cho plot đó
+- Trên 1 plot sẽ có duy nhất một máy bơm điều khiển nó(có thể có Th 1 máy bơm điều khiển nhiều plot)
+- Trên 1 plot sẽ có duy nhất một bộ dữ liệu của Agriculture sensor (tuy nhiên có thể 1 sensor lấy data cho nhiều plot)
+
+## Sửa: deviceId sẽ được định danh bằng LoraID và FarmID thay cho việc định danh bằng EOJ và FarmID
+deviceId local: LoraID
+deviceId global: LoraID+FarmID
+
+deviceId local để định danh trong mạng, tạo deviceId global
+deviceId global được tính ở GW và gửi lên server thông qua topic MQTT "/iot_agriculture/status/devices/online"
+
+Pump 1
+Sensor 0
+
+```
+Lưu ý khi triển khai hàm và Cấu trúc dữ liệu:
+- Khi mình quyết định viết một hàm để set giá trị isAuto là true hay false cho một deviceControlUnit thì mình tạo một HashMap<DeviceControlUnit, Boolean> đểu lưu giá trị thì mình mới chỉ tính đến việc create và read chứ chưa tính đến việc update. Điều này dẫn đến việc khi mình muốn update một DeviceControlUnit thì gặp 1 vấn đề là không lấy được tham chiếu đến DeviceControlUnit mà mình muốn dù biết được deviceId. Giải pháp là đổi cấu trúc dữ liệu thành HashMap<Long, Boolean> trong đó key là DeviceId. Khi đó mình sẽ phải thay đổi rất nhiều code vì có rất nhiều phụ thuộc vào hàm này.
+Bài học ở đây là khi quyết định một cấu trúc dữ liệu thì nên xem xét các thao tác CRUD sẽ thực hiện như thế nào trước, sau đó mới quyết định.
+```
+
+```
+scp -r -P23456 /home/caothang/Documents/research/Agriculture/IoTAgriculture/Irrigation/out/artifacts/Irrigation_jar thang_uet@112.137.129.202:/home/thang_uet/server_iotagriculture/ 
+```
+/home/caothang/Documents/research/Agriculture/IoTAgriculture/DB/irrigation_database.sql

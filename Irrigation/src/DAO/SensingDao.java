@@ -60,6 +60,30 @@ public class SensingDao implements Dao<Sensing> {
         }
         return sensing;
     }
+    public Sensing getNewestSensingByPlotId(int plotId) {
+        Statement statement;
+        Sensing sensing = null;
+        try {
+            statement = dbConnector.getConnection().createStatement();
+            String sql = "select * from Sensing where PlotID = "+plotId+" order by SensingID desc limit 1";
+            ResultSet resultSet= statement.executeQuery(sql);
+            while(resultSet.next()){
+                sensing = new Sensing(resultSet.getLong("SensingID"),
+                        resultSet.getLong("DeviceID"),
+                        resultSet.getInt("PlotID"),
+                        resultSet.getFloat("SoilMoisture"),
+                        resultSet.getFloat("SoilTemperature"),
+                        resultSet.getFloat("Humidity"),
+                        resultSet.getFloat("Temperature"),
+                        resultSet.getInt("LightLevel"),
+                        resultSet.getTimestamp("TimeOfMeasurement"));
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sensing;
+    }
 
     @Override
     public int save(Sensing sensing) {

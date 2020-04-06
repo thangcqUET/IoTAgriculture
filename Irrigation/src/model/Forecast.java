@@ -11,6 +11,7 @@ public class Forecast {
     private Float temperature;
     private String forecastStatus;
     private Timestamp timeOfMeasurement;
+    private String LocateID;
 
     public Forecast() {
     }
@@ -98,5 +99,13 @@ public class Forecast {
 
     public void setTimeOfMeasurement(Timestamp timeOfMeasurement) {
         this.timeOfMeasurement = timeOfMeasurement;
+    }
+
+    public String getLocateID() {
+        return LocateID;
+    }
+
+    public void setLocateID(String locateID) {
+        LocateID = locateID;
     }
 }

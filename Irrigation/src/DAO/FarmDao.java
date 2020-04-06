@@ -66,6 +66,22 @@ public class FarmDao implements Dao<Farm> {
         }
         return farm;
     }
+    public Integer getLocateIdById(int id) {
+        Statement statement;
+        Integer locateId = null;
+        try {
+            statement = dbConnector.getConnection().createStatement();
+            String sql = "select LocateID from Farms where FarmID = "+id+";";
+            ResultSet resultSet=statement.executeQuery(sql);
+            while(resultSet.next()){
+                locateId = resultSet.getInt("LocateID");
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return locateId;
+    }
 
     @Override
     public int save(Farm farm) {

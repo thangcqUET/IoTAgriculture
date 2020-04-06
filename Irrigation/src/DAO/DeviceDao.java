@@ -115,7 +115,22 @@ public class DeviceDao implements Dao<Device> {
         }
         return device;
     }
-
+    public Integer getPlotIdById(Long id) {
+        Statement statement;
+        Integer plotId=null;
+        try {
+            statement = dbConnector.getConnection().createStatement();
+            String sql = "select PlotID from Devices where DeviceID = "+id+";";
+            ResultSet resultSet=statement.executeQuery(sql);
+            while(resultSet.next()){
+                plotId=resultSet.getInt("PlotID");
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return plotId;
+    }
     @Override
     public int save(Device device) {
         Statement statement;

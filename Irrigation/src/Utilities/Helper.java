@@ -2,6 +2,7 @@ package Utilities;
 
 import com.mysql.cj.xdevapi.JsonArray;
 import com.mysql.cj.xdevapi.JsonParser;
+import model.Device;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,6 +18,10 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 public class Helper {
+    public enum TypeDevice{
+        NO_DEVICE, AGRICULTURE_SENSOR, PUMP
+    }
+
     public static String md5(String str){
         String result = "";
         MessageDigest digest;
@@ -62,6 +67,7 @@ public class Helper {
     public static Integer convertDeviceIdToFarmId(Long deviceId){
         return (int)(deviceId&0x00000000FFFFFFFF);
     }
+
     public static String removeAccent(String s) {
 
         String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
@@ -73,5 +79,6 @@ public class Helper {
         Date now = new Date();
         return new Timestamp(now.getTime());
     }
+
 }
 

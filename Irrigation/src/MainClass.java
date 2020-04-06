@@ -4,6 +4,7 @@ import DAO.UserDao;
 import Utilities.Helper;
 import components.ControllingDataSender;
 import components.DataCollector;
+import components.autoController.MPC;
 import model.Farm;
 import model.Plot;
 import model.User;
@@ -21,7 +22,27 @@ public class MainClass {
         if(farmDao.getById(1)==null){
             farmDao.save(new Farm(null,null,null,null,1));
         }
+
+
+//        Thread dataCollectorThread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                DataCollector dataCollector = new DataCollector();
+//            }
+//        });
+//        Thread mpcThread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//        //ControllingDataSender controllingDataSender = new ControllingDataSender();
+//                MPC mpc = new MPC();
+//                mpc.process();
+//            }
+//        });
+//        dataCollectorThread.start();
+//        mpcThread.start();
+
         DataCollector dataCollector = new DataCollector();
-//        ControllingDataSender controllingDataSender = new ControllingDataSender();
+        MPC mpc = new MPC();
+        mpc.process();
     }
 }

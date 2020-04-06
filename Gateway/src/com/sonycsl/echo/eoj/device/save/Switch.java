@@ -29,7 +29,6 @@ public abstract class Switch extends DeviceObject {
 
 	public static final byte EPC_CONNECTED_DEVICE = (byte)0xE0;
 
-	public static final byte EPC_TURN_ON_DURATION = (byte)0xF0;
 	@Override
 	protected void setupPropertyMaps() {
 		super.setupPropertyMaps();
@@ -173,13 +172,9 @@ bytes<br>
 	 * Set - optional<br>
 	 * Get - optional<br>
 	 */
-	protected boolean setTurnOnDuration(byte[] edt){return false;}
-	protected byte[] getTurnOnDuration(){return null;}
-
 	protected boolean isValidConnectedDevice(byte[] edt) {
 		return edt != null && edt.length == 12;
 	}
-	protected boolean isValidTurnOnDuration(byte[] edt) {return edt!=null && edt.length==4;}
 
 	@Override
 	protected synchronized boolean setProperty(EchoProperty property) {
@@ -199,7 +194,6 @@ bytes<br>
 		
 		switch(epc) {
 		case EPC_CONNECTED_DEVICE : return getConnectedDevice();
-		case EPC_TURN_ON_DURATION : return getTurnOnDuration();
 		default : return null;
 		}
 	}
@@ -211,7 +205,6 @@ bytes<br>
 		
 		switch(property.epc) {
 		case EPC_CONNECTED_DEVICE : return isValidConnectedDevice(property.edt);
-			case EPC_TURN_ON_DURATION : return isValidTurnOnDuration(property.edt);
 		default : return false;
 		}
 	}
@@ -262,8 +255,6 @@ bytes<br>
 			case EPC_CONNECTED_DEVICE : 
 				onSetConnectedDevice(eoj, tid, esv, property, success);
 				return true;
-			case EPC_TURN_ON_DURATION:
-				onSetTurnOnDuration(eoj, tid, esv, property, success);
 			default :
 				return false;
 			}
@@ -278,8 +269,6 @@ bytes<br>
 			switch(property.epc) {
 			case EPC_CONNECTED_DEVICE : 
 				onGetConnectedDevice(eoj, tid, esv, property, success);
-			case EPC_TURN_ON_DURATION :
-				onGetTurnOnDuration(eoj, tid, esv, property, success);
 				return true;
 			default :
 				return false;
@@ -334,8 +323,6 @@ bytes<br>
 		 * Get - optional<br>
 		 */
 		protected void onGetConnectedDevice(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success) {}
-		protected void onSetTurnOnDuration(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success){}
-		protected void onGetTurnOnDuration(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success){}
 	}
 
 	public static class Setter extends DeviceObject.Setter {
@@ -349,7 +336,7 @@ bytes<br>
 		public Setter reqSetProperty(byte epc, byte[] edt) {
 			return (Setter)super.reqSetProperty(epc, edt);
 		}
-
+		
 		@Override
 		public Setter reqSetOperationStatus(byte[] edt) {
 			return (Setter)super.reqSetOperationStatus(edt);
@@ -408,10 +395,6 @@ bytes<br>
 		 */
 		public Setter reqSetConnectedDevice(byte[] edt) {
 			reqSetProperty(EPC_CONNECTED_DEVICE, edt);
-			return this;
-		}
-		public Setter reqSetTurnOnDuration(byte[] edt){
-			reqSetProperty(EPC_TURN_ON_DURATION, edt);
 			return this;
 		}
 	}
@@ -552,10 +535,6 @@ bytes<br>
 			reqGetProperty(EPC_CONNECTED_DEVICE);
 			return this;
 		}
-		public Getter reqGetTurnOnDuration(){
-			reqGetProperty(EPC_TURN_ON_DURATION);
-			return this;
-		}
 	}
 	
 	public static class Informer extends DeviceObject.Informer {
@@ -691,10 +670,6 @@ bytes<br>
 		 */
 		public Informer reqInformConnectedDevice() {
 			reqInformProperty(EPC_CONNECTED_DEVICE);
-			return this;
-		}
-		public Informer reqInformTurnOnDuration() {
-			reqInformProperty(EPC_TURN_ON_DURATION);
 			return this;
 		}
 	}

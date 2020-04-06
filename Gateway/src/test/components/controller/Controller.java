@@ -1,9 +1,11 @@
-package components.controller;
+package test.components.controller;
 
-import components.OnControlListener;
+import test.components.OnControlListener;
 
 public abstract class Controller {
-    private Long deviceId;
+    Boolean status;
+    Long deviceId;
+
     public Long getDeviceId() {
         return deviceId;
     }
@@ -16,12 +18,13 @@ public abstract class Controller {
         this.deviceId = deviceId;
     }
 
-    protected OnControlListener onControlListener;
+    private OnControlListener onControlListener;
     public void setOnControlListener(OnControlListener onControlListener){
         this.onControlListener = onControlListener;
     }
     protected void setStatus(Boolean status){
+        this.status = status;
         onControlListener.onReceivedControllingData(status);
     }
-    public void start(){}
+    public abstract void start();
 }

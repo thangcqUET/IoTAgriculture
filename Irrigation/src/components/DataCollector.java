@@ -3,6 +3,8 @@ package components;
 import Connector.MQTTConnector;
 import DAO.*;
 import Utilities.Helper;
+import components.autoController.DeviceControlUnit;
+import components.autoController.DeviceControlUnitManager;
 import model.*;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
@@ -33,7 +35,7 @@ public class DataCollector {
 
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                System.out.println(topic);
+                System.out.println("messageArrived line 37 DataCollector: "+ topic);
                 if(topic.equals("/iot_agriculture/identify/farm_id/get")){
                     createFarmId(mqttMessage);
                 }
@@ -230,21 +232,29 @@ public class DataCollector {
             Device newDevice = new Device(oldDevice);
             newDevice.setStatus(Boolean.FALSE);
             deviceDao.update(oldDevice,newDevice);
+
+            DeviceControlUnitManager dcum = DeviceControlUnitManager.getInstance();
+            dcum.setOnControl(oldDevice.getDeviceID(),false);
         }
     }
 
     private static void notifyDeviceOnline(MqttMessage mqttMessage){
         JSONObject jsonObject = Helper.mqttMessageToJsonObject(mqttMessage);
         Long deviceId=null;
+        Integer typeDevice = null;
         if(jsonObject.get("deviceId") instanceof Long){
             deviceId = (Long)jsonObject.get("deviceId");
         }else return;
-        System.out.println("device "+ deviceId +" online");
+        if(jsonObject.get("typeDevice") instanceof Long){
+            typeDevice = ((Long) jsonObject.get("typeDevice")).intValue();
+        }else return;
+        System.out.println("device "+ deviceId +" online - "+(Helper.TypeDevice.PUMP.ordinal()==typeDevice?"PUMP":"AGRICULTURE SENSOR"));
         final DeviceDao deviceDao = new DeviceDao();
         Device device = deviceDao.getById(deviceId);
         if(device == null){
             final Boolean setPlotDefault = true;// *******won't need to enter input Plot ID********
             final Long finalDeviceId = deviceId;
+            final Integer finalTyeDevice =  typeDevice;
             final Integer farmId = Helper.convertDeviceIdToFarmId(deviceId);
             Thread thread = new Thread(new Runnable() {
                 @Override
@@ -252,7 +262,7 @@ public class DataCollector {
                     if(setPlotDefault == true){
                         System.out.println("plot default = 1");
                         Integer plotId = 1;
-                        deviceDao.save(new Device(finalDeviceId, null, null, Boolean.TRUE, plotId));
+                        deviceDao.save(new Device(finalDeviceId, finalTyeDevice, null, Boolean.TRUE, plotId));
                         Thread.currentThread().interrupt();
                     }else {
                         Integer plotId = 1;
@@ -281,7 +291,16 @@ public class DataCollector {
                             if (isEqual == Boolean.TRUE) break;
                             System.out.println("PlotId don't exist! Retry!");
                         } while (Boolean.TRUE);
-                        deviceDao.save(new Device(finalDeviceId, null, null, Boolean.TRUE, plotId));
+                        Device newDevice = new Device(finalDeviceId, finalTyeDevice, null, Boolean.TRUE, plotId);
+                        deviceDao.save(newDevice);
+                        if(finalTyeDevice==Helper.TypeDevice.PUMP.ordinal()) {
+                            DeviceControlUnitManager dcum = DeviceControlUnitManager.getInstance();
+                            if (!dcum.isExist(finalDeviceId)) {
+                                DeviceControlUnit dcu = new DeviceControlUnit(finalDeviceId);
+                                dcum.add(dcu);
+                            }
+                            System.out.println(dcum);
+                        }
                         Thread.currentThread().interrupt();
                     }
                 }
@@ -292,6 +311,16 @@ public class DataCollector {
             Device newDevice = new Device(device);
             newDevice.setStatus(Boolean.TRUE);
             deviceDao.update(device,newDevice);
+            if(typeDevice==Helper.TypeDevice.PUMP.ordinal()) {
+                DeviceControlUnitManager dcum = DeviceControlUnitManager.getInstance();
+                if (dcum.isExist(deviceId)) {
+                    dcum.setOnControl(device.getDeviceID(), true);
+                } else {
+                    DeviceControlUnit dcu = new DeviceControlUnit(deviceId);
+                    dcum.add(dcu);
+                }
+                System.out.println(dcum);
+            }
         }
 
     }

@@ -90,6 +90,22 @@ public class PlotDao implements Dao<Plot> {
         }
         return plot;
     }
+    public Integer getFarmIdById(int id) {
+        Statement statement;
+        Integer farmId = null;
+        try {
+            statement = dbConnector.getConnection().createStatement();
+            String sql = "select FarmID from Plots where PlotID = "+id+";";
+            ResultSet resultSet=statement.executeQuery(sql);
+            while(resultSet.next()){
+                farmId = resultSet.getInt("FarmID");
+            }
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return farmId;
+    }
 
     @Override
     public int save(Plot plot) {

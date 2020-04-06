@@ -26,22 +26,22 @@ public class ControlReceiver implements Runnable{
     public void run() {
         JSONObject jsonObject = Helper.mqttMessageToJsonObject(mqttMessage);
         Long deviceId;
-        Boolean status;
+        Float timeToWater;
         if(jsonObject.get("deviceId") instanceof Long) {
             deviceId = ((Long) jsonObject.get("deviceId"));
             System.out.println("device: " + deviceId);
         }else{
             return;
         }
-        if(jsonObject.get("status") instanceof Boolean){
-            status = (Boolean) jsonObject.get("status");
-            System.out.println("status: "+status);
+        if(jsonObject.get("timeToWater") instanceof Double){
+            timeToWater = ((Double) jsonObject.get("timeToWater")).floatValue();
+            System.out.println("timeToWater: "+timeToWater);
         }else{
             return;
         }
         Integer echoObjectCode = Helper.convertGlobalIdDeviceToLocalIdDevice(deviceId);
         System.out.println(Helper.convertLocalIdDeviceToGlobalIdDevice(echoObjectCode,1)+" "+echoObjectCode);
         ReliableTransmitter reliableTransmitter = new ReliableTransmitter();
-        System.out.println("SET: "+reliableTransmitter.setC(echoObjectCode,status));
+        System.out.println("SET: "+reliableTransmitter.setC(echoObjectCode,timeToWater)+" "+timeToWater);
     }
 }

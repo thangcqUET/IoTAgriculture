@@ -16,12 +16,10 @@
 package com.sonycsl.echo.eoj.device.managementoperation;
 
 import com.sonycsl.echo.Echo;
-import com.sonycsl.echo.EchoFrame;
 import com.sonycsl.echo.EchoProperty;
 import com.sonycsl.echo.EchoSocket;
 import com.sonycsl.echo.eoj.EchoObject;
 import com.sonycsl.echo.eoj.device.DeviceObject;
-import com.sonycsl.echo.node.EchoNode;
 
 public abstract class Switch extends DeviceObject {
 	
@@ -254,7 +252,7 @@ bytes<br>
 
 		@Override
 		protected boolean onSetProperty(EchoObject eoj, short tid, byte esv,
-				EchoProperty property, boolean success) {
+                                        EchoProperty property, boolean success) {
 			boolean ret = super.onSetProperty(eoj, tid, esv, property, success);
 			if(ret) return true;
 			
@@ -271,7 +269,7 @@ bytes<br>
 
 		@Override
 		protected boolean onGetProperty(EchoObject eoj, short tid, byte esv,
-				EchoProperty property, boolean success) {
+                                        EchoProperty property, boolean success) {
 			boolean ret = super.onGetProperty(eoj, tid, esv, property, success);
 			if(ret) return true;
 			

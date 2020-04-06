@@ -5,7 +5,7 @@ import test.components.OnControlListener;
 public abstract class Controller {
     Boolean status;
     Long deviceId;
-
+    Float amountOfWater;
     public Long getDeviceId() {
         return deviceId;
     }
@@ -25,6 +25,10 @@ public abstract class Controller {
     protected void setStatus(Boolean status){
         this.status = status;
         onControlListener.onReceivedControllingData(status);
+    }
+    protected void setAmountOfWater(Float amountOfWater){
+        this.amountOfWater=amountOfWater;
+        onControlListener.onReceivedControllingData(amountOfWater);
     }
     public abstract void start();
 }

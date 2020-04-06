@@ -15,14 +15,11 @@
  */
 package com.sonycsl.echo.node;
 
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.sonycsl.echo.Echo;
 import com.sonycsl.echo.EchoSocket;
@@ -35,9 +32,9 @@ import com.sonycsl.echo.eoj.device.cookinghousehold.*;
 import com.sonycsl.echo.eoj.device.health.*;
 import com.sonycsl.echo.eoj.device.housingfacilities.*;
 import com.sonycsl.echo.eoj.device.managementoperation.*;
+import com.sonycsl.echo.eoj.device.save.Switch;
 import com.sonycsl.echo.eoj.device.sensor.*;
 import com.sonycsl.echo.eoj.profile.*;
-import com.sonycsl.echo.eoj.profile.NodeProfile.Proxy;
 
 
 public final class EchoNode {

@@ -13,15 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.sonycsl.echo.eoj.device.managementoperation;
+package com.sonycsl.echo.eoj.device.save;
 
 import com.sonycsl.echo.Echo;
-import com.sonycsl.echo.EchoFrame;
 import com.sonycsl.echo.EchoProperty;
 import com.sonycsl.echo.EchoSocket;
 import com.sonycsl.echo.eoj.EchoObject;
 import com.sonycsl.echo.eoj.device.DeviceObject;
-import com.sonycsl.echo.node.EchoNode;
 
 public abstract class Switch extends DeviceObject {
 	
@@ -38,11 +36,11 @@ public abstract class Switch extends DeviceObject {
 		addGetProperty(EPC_OPERATION_STATUS);
 	}
 
-	@Override
-	public void onNew() {
-		super.onNew();
-		Echo.getEventListener().onNewSwitch(this);
-	}
+//	@Override
+//	public void onNew() {
+//		super.onNew();
+//		Echo.getEventListener().onNewSwitch(this);
+//	}
 	
 	@Override
 	public short getEchoClassCode() {

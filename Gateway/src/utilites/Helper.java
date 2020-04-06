@@ -14,6 +14,11 @@ public class Helper {
         ByteBuffer bb = ByteBuffer.wrap(b).order(ByteOrder.LITTLE_ENDIAN);
         return bb.getFloat();
     }
+    public static byte[] floatToByteArray(float value) {
+        int intBits =  Float.floatToIntBits(value);
+        return new byte[] {
+                (byte) (intBits >> 24), (byte) (intBits >> 16), (byte) (intBits >> 8), (byte) (intBits) };
+    }
     public static int ConvertByteToInt(byte[] b)
     {
         int value= 0;
@@ -59,5 +64,8 @@ public class Helper {
             System.out.print(a[i]+" ");
         }
         System.out.println();
+    }
+    public static Integer convertDeviceIdToFarmId(Long deviceId){
+        return (int)(deviceId&0x00000000FFFFFFFF);
     }
 }

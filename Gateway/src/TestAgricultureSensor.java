@@ -15,6 +15,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.simple.JSONObject;
+import test.components.ControllingDataSender;
 import utilites.Helper;
 
 public class TestAgricultureSensor {
@@ -66,6 +67,8 @@ public class TestAgricultureSensor {
             Echo.start(new DefaultNodeProfile(), new DeviceObject[]{new DefaultController()});
             Thread devicesManager = new Thread(new DeviceManager(timeToWaitUpdateDevices, timeToReUpdateDevices));
             Thread packetTransfer = new Thread(new DataTransfer(timeToUpdateData));
+            Thread controllingDataSender = new Thread(new ControllingDataSender());
+            controllingDataSender.start();
 //            Thread operationStatusManager = new Thread(new OperationStatusManager(timeToUpdateOperationStatus));
             devicesManager.start();
 //            operationStatusManager.start();

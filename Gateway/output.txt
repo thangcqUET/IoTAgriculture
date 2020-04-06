@@ -1,0 +1,84 @@
+1
+Information found!
+>>message is published '/iot_agriculture/status/gateway/online' :
+{"farmId":1}
+Get data...
+DevicesList is updating...
+>>message is published '/iot_agriculture/controlling/1' :
+{"deviceId":1685559915315201,"status":false}
+Get data...
+received controlling packet: {"deviceId":1685559915315201,"status":false}
+device: 1685559915315201
+status: false
+1685559915315201 392450
+-------------------------
+Devices
+-------------------------
+-------------------------
+
+SET: false
+Get data...
+>>message is published '/iot_agriculture/controlling/1' :
+{"deviceId":1685559915315201,"status":true}
+received controlling packet: {"deviceId":1685559915315201,"status":true}
+device: 1685559915315201
+status: true
+1685559915315201 392450
+-------------------------
+Devices
+-------------------------
+-------------------------
+
+SET: false
+Get data...
+>>message is published '/iot_agriculture/controlling/1' :
+{"deviceId":1685559915315201,"status":false}
+received controlling packet: {"deviceId":1685559915315201,"status":false}
+device: 1685559915315201
+status: false
+1685559915315201 392450
+-------------------------
+Devices
+-------------------------
+-------------------------
+
+SET: false
+Get data...
+>>message is published '/iot_agriculture/controlling/1' :
+{"deviceId":1685559915315201,"status":true}
+received controlling packet: {"deviceId":1685559915315201,"status":true}
+device: 1685559915315201
+status: true
+1685559915315201 392450
+-------------------------
+Devices
+-------------------------
+-------------------------
+
+SET: false
+Get data...
+>>message is published '/iot_agriculture/controlling/1' :
+{"deviceId":1685559915315201,"status":false}
+received controlling packet: {"deviceId":1685559915315201,"status":false}
+device: 1685559915315201
+status: false
+1685559915315201 392450
+-------------------------
+Devices
+-------------------------
+-------------------------
+
+SET: false
+Get data...
+>>message is published '/iot_agriculture/controlling/1' :
+{"deviceId":1685559915315201,"status":true}
+received controlling packet: {"deviceId":1685559915315201,"status":true}
+device: 1685559915315201
+status: true
+1685559915315201 392450
+-------------------------
+Devices
+-------------------------
+-------------------------
+
+SET: false

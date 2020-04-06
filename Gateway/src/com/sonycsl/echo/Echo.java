@@ -72,7 +72,6 @@ import com.sonycsl.echo.node.EchoNode;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

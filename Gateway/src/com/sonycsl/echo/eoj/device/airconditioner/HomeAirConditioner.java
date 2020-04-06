@@ -2393,12 +2393,12 @@ public abstract class HomeAirConditioner extends DeviceObject {
 		return edt != null && edt.length == 1;
 	}
 	/**
-	 * Property name : Operation status of components<br>
+	 * Property name : Operation status of test.test.components<br>
 	 * <br>
 	 * EPC : 0xCD<br>
 	 * <br>
 	 * Contents of property :<br>
-	 * This property indicates the operation status of components of the air conditioner in a bitmap format.<br>
+	 * This property indicates the operation status of test.test.components of the air conditioner in a bitmap format.<br>
 	 * <br>
 	 * Value range (decimal notation) :<br>
 	 * Bit 0: Operation status of the compressor:<br>
@@ -2421,12 +2421,12 @@ public abstract class HomeAirConditioner extends DeviceObject {
 	 */
 	protected byte[] getOperationStatusOfComponents() {return null;}
 	/**
-	 * Property name : Operation status of components<br>
+	 * Property name : Operation status of test.test.components<br>
 	 * <br>
 	 * EPC : 0xCD<br>
 	 * <br>
 	 * Contents of property :<br>
-	 * This property indicates the operation status of components of the air conditioner in a bitmap format.<br>
+	 * This property indicates the operation status of test.test.components of the air conditioner in a bitmap format.<br>
 	 * <br>
 	 * Value range (decimal notation) :<br>
 	 * Bit 0: Operation status of the compressor:<br>
@@ -4795,12 +4795,12 @@ public abstract class HomeAirConditioner extends DeviceObject {
 		 */
 		protected void onGetSpecialFunctionSetting(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success) {}
 		/**
-		 * Property name : Operation status of components<br>
+		 * Property name : Operation status of test.test.components<br>
 		 * <br>
 		 * EPC : 0xCD<br>
 		 * <br>
 		 * Contents of property :<br>
-		 * This property indicates the operation status of components of the air conditioner in a bitmap format.<br>
+		 * This property indicates the operation status of test.test.components of the air conditioner in a bitmap format.<br>
 		 * <br>
 		 * Value range (decimal notation) :<br>
 		 * Bit 0: Operation status of the compressor:<br>
@@ -7079,12 +7079,12 @@ public abstract class HomeAirConditioner extends DeviceObject {
 			return this;
 		}
 		/**
-		 * Property name : Operation status of components<br>
+		 * Property name : Operation status of test.test.components<br>
 		 * <br>
 		 * EPC : 0xCD<br>
 		 * <br>
 		 * Contents of property :<br>
-		 * This property indicates the operation status of components of the air conditioner in a bitmap format.<br>
+		 * This property indicates the operation status of test.test.components of the air conditioner in a bitmap format.<br>
 		 * <br>
 		 * Value range (decimal notation) :<br>
 		 * Bit 0: Operation status of the compressor:<br>
@@ -8333,12 +8333,12 @@ public abstract class HomeAirConditioner extends DeviceObject {
 			return this;
 		}
 		/**
-		 * Property name : Operation status of components<br>
+		 * Property name : Operation status of test.test.components<br>
 		 * <br>
 		 * EPC : 0xCD<br>
 		 * <br>
 		 * Contents of property :<br>
-		 * This property indicates the operation status of components of the air conditioner in a bitmap format.<br>
+		 * This property indicates the operation status of test.test.components of the air conditioner in a bitmap format.<br>
 		 * <br>
 		 * Value range (decimal notation) :<br>
 		 * Bit 0: Operation status of the compressor:<br>

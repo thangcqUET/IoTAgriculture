@@ -9,13 +9,9 @@ import com.sonycsl.echo.eoj.device.sensor.AgricultureSensor;
 import com.sonycsl.echo.node.EchoNode;
 import dataStructure.DevicesList;
 import dataStructure.MqttDataPacketSender;
-import dataStructure.MqttDataPacketSender;
-import org.json.simple.JSONObject;
 import utilites.Flags;
-import utilites.Helper;
 
 import java.io.IOException;
-import java.nio.ByteOrder;
 import java.util.ArrayList;
 
 public class DataTransfer implements Runnable {

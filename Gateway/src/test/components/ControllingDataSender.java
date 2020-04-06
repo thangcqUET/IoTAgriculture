@@ -9,7 +9,7 @@ import org.json.simple.JSONObject;
 public class ControllingDataSender implements Runnable{
     private Controller controller;
     public ControllingDataSender() {
-        controller = new LoopController(50581829844993L);
+        controller = new LoopController(1685555620347905L);
         final MQTTConnector mqttConnector;
         mqttConnector = new MQTTConnector();
         mqttConnector.connect();
@@ -19,6 +19,14 @@ public class ControllingDataSender implements Runnable{
             public void onReceivedControllingData(Boolean status) {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("status",status);
+                jsonObject.put("deviceId",controller.getDeviceId());
+                mqttConnector.publishMessage(jsonObject.toJSONString(),topic);
+            }
+
+            @Override
+            public void onReceivedControllingData(Float amountOfWater) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("timeToWater",amountOfWater/0.75F);
                 jsonObject.put("deviceId",controller.getDeviceId());
                 mqttConnector.publishMessage(jsonObject.toJSONString(),topic);
             }

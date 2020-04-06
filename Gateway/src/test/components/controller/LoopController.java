@@ -18,8 +18,8 @@ public class LoopController extends Controller {
         while(true) {
             try {
                 Thread.sleep(timeLoop);
-                setStatus(currentStatus);
-                currentStatus = !currentStatus;
+                setAmountOfWater(5F);
+                //currentStatus = !currentStatus;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

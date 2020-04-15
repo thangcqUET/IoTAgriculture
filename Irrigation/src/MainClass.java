@@ -4,6 +4,7 @@ import DAO.UserDao;
 import Utilities.Helper;
 import components.ControllingDataSender;
 import components.DataCollector;
+import components.WeatherForecastCollector;
 import components.autoController.MPC;
 import model.Farm;
 import model.Plot;
@@ -40,6 +41,10 @@ public class MainClass {
 //        });
 //        dataCollectorThread.start();
 //        mpcThread.start();
+
+        WeatherForecastCollector weatherForecastCollector = new WeatherForecastCollector();
+        Thread weatherForecastCollectorThread = new Thread(weatherForecastCollector);
+        weatherForecastCollectorThread.start();
 
         DataCollector dataCollector = new DataCollector();
         MPC mpc = new MPC();

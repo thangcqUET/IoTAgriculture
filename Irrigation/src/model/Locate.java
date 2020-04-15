@@ -1,32 +1,15 @@
 package model;
 
 public class Locate {
-    private Integer locateId;
+    private String locateId;
     private String locate;
-    private Float lon;
-    private Float lat;
 
-    public Float getLon() {
-        return lon;
-    }
 
-    public void setLon(Float lon) {
-        this.lon = lon;
-    }
-
-    public Float getLat() {
-        return lat;
-    }
-
-    public void setLat(Float lat) {
-        this.lat = lat;
-    }
-
-    public Integer getLocateId() {
+    public String getLocateId() {
         return locateId;
     }
 
-    public void setLocateId(Integer locateId) {
+    public void setLocateId(String locateId) {
         this.locateId = locateId;
     }
 
@@ -42,10 +25,9 @@ public class Locate {
         this.locate = locate;
     }
 
-    public Locate(Integer locateId, String locate, Float lon, Float lat) {
+    public Locate(String locateId, String locate) {
         this.locateId = locateId;
         this.locate = locate;
-        this.lon = lon;
-        this.lat = lat;
+
     }
 }

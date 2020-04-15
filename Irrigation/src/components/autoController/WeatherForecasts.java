@@ -1,6 +1,9 @@
 package components.autoController;
 
+import DAO.LocateDao;
+import DAO.WeatherForecastDao;
 import model.Forecast;
+import model.Locate;
 import model.WeatherForecast;
 
 import java.time.LocalTime;
@@ -28,26 +31,20 @@ public class WeatherForecasts {
     public ArrayList<WeatherForecast> getForecasts() {
         return weatherForecastArrayList;
     }
+
     WeatherForecast getWeatherForecastByLocateId(String locateId){
-        boolean found = false;
-        for(WeatherForecast weatherForecast:weatherForecastArrayList){
-            if(weatherForecast.getLocateId().equals(locateId)){
-                found = true;
-                weatherForecast.updateTest();
-                return weatherForecast;
-            }
+        WeatherForecastDao weatherForecastDao = new WeatherForecastDao();
+        WeatherForecast weatherForecast = weatherForecastDao.getLatestByLocateId(locateId);
+        if(weatherForecast==null){
+            LocateDao locateDao = new LocateDao();
+            locateDao.save(new Locate(locateId,"New Location"));
+            weatherForecast = new WeatherForecast(locateId);
+            weatherForecast.update();
+            weatherForecastDao.save(weatherForecast);
+            return weatherForecast;
+        }else{
+            return weatherForecast;
         }
-        if(found == false){
-            WeatherForecast weatherForecast = new WeatherForecast(locateId);
-            if(weatherForecast!=null){
-                weatherForecast.updateTest();
-                weatherForecastArrayList.add(weatherForecast);
-                return weatherForecast;
-            }else{
-                return null;
-            }
-        }
-        return null;
     }
 
 }

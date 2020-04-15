@@ -17,9 +17,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class WeatherForecast{
-    private  String locateId="353412";
-    private  ArrayList<WeatherForecastAtATime> weatherForecastAtATimes=new ArrayList<WeatherForecastAtATime>();
-    private LocalTime curTime;
+    private Integer weatherForecastId;
+    private String locateId;
+    private ArrayList<WeatherForecastAtATime> weatherForecastAtATimes=new ArrayList<WeatherForecastAtATime>();
+    private LocalTime currentTime;
     public WeatherForecast() {
         locateId ="353412";
     }
@@ -27,13 +28,39 @@ public class WeatherForecast{
         this.locateId = locateId;
     }
 
-    public ArrayList<WeatherForecastAtATime> getWeatherForecastAtATimes() {
-        return weatherForecastAtATimes;
+    public WeatherForecast(Integer weatherForecastId, String locateId, LocalTime currentTime) {
+        this.weatherForecastId = weatherForecastId;
+        this.locateId = locateId;
+        this.currentTime = currentTime;
     }
+
+    public Integer getWeatherForecastId() {
+        return weatherForecastId;
+    }
+
+    public LocalTime getCurTime() {
+        return currentTime;
+    }
+
     public  String getLocateId() {
         return locateId;
     }
 
+    public ArrayList<WeatherForecastAtATime> getWeatherForecastAtATimes() {
+        return weatherForecastAtATimes;
+    }
+
+    public void setLocateId(String locateId) {
+        this.locateId = locateId;
+    }
+
+    public void setCurTime(LocalTime currentTime) {
+        this.currentTime = currentTime;
+    }
+
+    public void setWeatherForecastAtATimes(ArrayList<WeatherForecastAtATime> weatherForecastAtATimes) {
+        this.weatherForecastAtATimes = weatherForecastAtATimes;
+    }
 
     private void analyse(JSONArray jsonArray) throws java.text.ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
@@ -64,6 +91,10 @@ public class WeatherForecast{
 
             weatherForecastAtATime.setCloudCover(((Long)jsonObject.get("CloudCover")).byteValue());
 
+            JSONObject wind = (JSONObject) jsonObject.get("Wind");
+            JSONObject windSpeed = (JSONObject) wind.get("Speed");
+            Double windSpeedValue = (Double) windSpeed.get("Value");
+            weatherForecastAtATime.setWindSpeed((windSpeedValue).floatValue());
             weatherForecastAtATimes.add(weatherForecastAtATime);
         }
     }
@@ -101,6 +132,10 @@ public class WeatherForecast{
 
                 weatherForecastAtATime.setCloudCover(((Long)jsonObject.get("CloudCover")).byteValue());
 
+                JSONObject wind = (JSONObject) jsonObject.get("Wind");
+                JSONObject windSpeed = (JSONObject) wind.get("Speed");
+                Double windSpeedValue = (Double) windSpeed.get("Value");
+                weatherForecastAtATime.setWindSpeed((windSpeedValue).floatValue());
                 weatherForecastAtATimes.add(weatherForecastAtATime);
             }
 
@@ -116,10 +151,10 @@ public class WeatherForecast{
         String api_url = "http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/" + locateId +"?apikey=" + api_key + "&language=en-us&details=true&metric=true";
         return api_url;
     }
-    public void update(){
-        if(curTime==null||(curTime.plusHours(1).compareTo(LocalTime.now())==-1&&curTime.getHour()!=23)) {
+    public void update_(){
+        if(currentTime==null||(currentTime.plusHours(1).compareTo(LocalTime.now())==-1&&currentTime.getHour()!=23)) {
             weatherForecastAtATimes.clear();
-            curTime = LocalTime.of(LocalTime.now().getHour(), 0);
+            currentTime = LocalTime.of(LocalTime.now().getHour(), 0);
             String api_url = getApiURL(locateId);
 
             try {
@@ -146,11 +181,11 @@ public class WeatherForecast{
         }else{
             return;
         }
-    }
-    public void updateTest(){
-        if(curTime==null||(curTime.plusHours(1).compareTo(LocalTime.now())==-1&&curTime.getHour()!=23)) {
+    }//REAL
+    public void update(){//TEST
+        if(currentTime==null||(currentTime.plusHours(1).compareTo(LocalTime.now())==-1&&currentTime.getHour()!=23)) {
             weatherForecastAtATimes.clear();
-            curTime = LocalTime.of(LocalTime.now().getHour(), 0);
+            currentTime = LocalTime.of(LocalTime.now().getHour(), 0);
             System.out.println("WeatherForeecast: update...");
             Object obj = null;
             try {
@@ -166,126 +201,13 @@ public class WeatherForecast{
             }
         }
     }
-    public class WeatherForecastAtATime{
-        private Date dateTime;
-        private Long epochDataTime;
-        private String forecastStatus;
-        private Boolean isDaylight;
-        private Float temperature;
-        private Float windSpeed;
-        private Float relativeHumidity;
-        private Byte rainProbability;
-        private Byte precipitationProbability;
-        private Float rainValue;
-        private Byte cloudCover;
 
-        public WeatherForecastAtATime() {
-        }
-
-        @Override
-        public String toString() {
-            return "dateTime: "+ dateTime+"\n"+
-                    "epochDataTime: "+epochDataTime+"\n"+
-                    "forecastStatus: "+forecastStatus+"\n"+
-                    "isDaylight"+isDaylight+"\n"+
-                    "temperature: "+temperature+"\n"+
-                    "windSpeed: "+windSpeed+"\n"+
-                    "relativeHumidity "+relativeHumidity+"\n"+
-                    "rainProbability: "+rainProbability+"\n"+
-                    "precipitationProbability: "+precipitationProbability+"\n"+
-                    "rainValue: "+rainValue+"\n"+
-                    "cloudCover: "+cloudCover+"\n";
-        }
-
-        public Date getDateTime() {
-            return dateTime;
-        }
-
-        public Long getEpochDataTime() {
-            return epochDataTime;
-        }
-
-        public String getForecastStatus() {
-            return forecastStatus;
-        }
-
-        public Boolean getDaylight() {
-            return isDaylight;
-        }
-
-        public Float getTemperature() {
-            return temperature;
-        }
-
-        public Float getWindSpeed() {
-            return windSpeed;
-        }
-
-        public Float getRelativeHumidity() {
-            return relativeHumidity;
-        }
-
-        public Byte getRainProbability() {
-            return rainProbability;
-        }
-
-        public Byte getPrecipitationProbability() {
-            return precipitationProbability;
-        }
-
-        public Float getRainValue() {
-            return rainValue;
-        }
-
-        public Byte getCloudCover() {
-            return cloudCover;
-        }
-
-        private void setDateTime(Date dateTime) {
-            this.dateTime = dateTime;
-        }
-        private void setEpochDataTime(Long epochDataTime) {
-            this.epochDataTime = epochDataTime;
-        }
-        private void setForecastStatus(String forecastStatus) {
-            this.forecastStatus = forecastStatus;
-        }
-        private void setDaylight(Boolean daylight) {
-            isDaylight = daylight;
-        }
-        private void setTemperature(Float temperature) {
-            this.temperature = temperature;
-        }
-        private void setWindSpeed(Float windSpeed) {
-            this.windSpeed = windSpeed;
-        }
-        private void setRelativeHumidity(Float relativeHumidity) {
-            this.relativeHumidity = relativeHumidity;
-        }
-        private void setRainProbability(Byte rainProbability) {
-            this.rainProbability = rainProbability;
-        }
-        private void setPrecipitationProbability(Byte precipitationProbability) {
-            this.precipitationProbability = precipitationProbability;
-        }
-        private void setRainValue(Float rainValue) {
-            this.rainValue = rainValue;
-        }
-        private void setCloudCover(Byte cloudCover) {
-            this.cloudCover = cloudCover;
-        }
-        public WeatherForecastAtATime(Date dateTime, Long epochDataTime, String forecastStatus, Boolean isDaylight, Float temperature, Float windSpeed, Float relativeHumidity, Byte rainProbability, Byte precipitationProbability, Float rainValue, Byte cloudCover) {
-            this.dateTime = dateTime;
-            this.epochDataTime = epochDataTime;
-            this.forecastStatus = forecastStatus;
-            this.isDaylight = isDaylight;
-            this.temperature = temperature;
-            this.windSpeed = windSpeed;
-            this.relativeHumidity = relativeHumidity;
-            this.rainProbability = rainProbability;
-            this.precipitationProbability = precipitationProbability;
-            this.rainValue = rainValue;
-            this.cloudCover = cloudCover;
-        }
+    @Override
+    public String toString() {
+        return "\nweatherForecastId: "+weatherForecastId+
+                "\nlocateId: "+locateId+
+                "\ncurrentTime: "+currentTime+
+                "\nweatherForecastAtATimes: \n"+
+                weatherForecastAtATimes.toString();
     }
 }

@@ -19,10 +19,8 @@ public class LocateDao implements Dao<Locate> {
             String sql = "select * from Locates";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()){
-                Locate locate = new Locate(resultSet.getInt("LocateID"),
-                        resultSet.getString("Locate"),
-                        resultSet.getFloat("Lon"),
-                        resultSet.getFloat("Lat")
+                Locate locate = new Locate(resultSet.getString("LocateID"),
+                        resultSet.getString("LocateName")
                 );
                 locates.add(locate);
             }
@@ -49,10 +47,8 @@ public class LocateDao implements Dao<Locate> {
             String sql = "select * from Locates where LocateID = "+id+";";
             ResultSet resultSet=statement.executeQuery(sql);
             while(resultSet.next()){
-                locate = new Locate(resultSet.getInt("LocateID"),
-                        resultSet.getString("Locate"),
-                        resultSet.getFloat("Lon"),
-                        resultSet.getFloat("Lat")
+                locate = new Locate(resultSet.getString("LocateID"),
+                        resultSet.getString("LocateName")
                 );
             }
             statement.close();
@@ -67,8 +63,8 @@ public class LocateDao implements Dao<Locate> {
         Statement statement;
         try {
             statement = dbConnector.getConnection().createStatement();
-            String sql = "insert into Locates(LocateID, LocateName, Lon, Lat) values " +
-                    "("+locate.getLocateId()+",'"+locate.getLocate()+"',"+locate.getLon()+","+locate.getLat()+")";
+            String sql = "insert into Locates(LocateID, LocateName) values " +
+                    "('"+locate.getLocateId()+"','"+locate.getLocate()+")";
             statement.executeUpdate(sql);
             statement.close();
         } catch (SQLException e) {

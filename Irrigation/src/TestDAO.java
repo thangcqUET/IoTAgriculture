@@ -20,11 +20,30 @@ public class TestDAO {
     public static void main(String[] args) throws IOException, InterruptedException {
 //        testLocateDao1();
 //        testUserDao();
-        testFarmDao();
+//        testFarmDao();
 //        testPlotDao();
 //        testDeviceTypeDao();
 //        testDeviceDao();
 //        testSensingDao();
+        testWeatherForecastDao();
+    }
+
+    public static void testWeatherForecastDao(){
+        WeatherForecastDao weatherForecastDao = new WeatherForecastDao();
+        WeatherForecast weatherForecast = new WeatherForecast();
+        weatherForecast.update();
+        System.out.println(weatherForecast);
+        weatherForecastDao.save(weatherForecast);
+        List<WeatherForecast> weatherForecasts = weatherForecastDao.getByLocateId("353412");
+        for(WeatherForecast wf:weatherForecasts){
+            System.out.println(wf);
+        }
+//        weatherForecastDao.save(weatherForecast)
+    }
+
+    public static void testWeatherForecastAtATimeDao(){
+        WeatherForecastAtATime weatherForecastAtATime = new WeatherForecastAtATime();
+
     }
 
     public static void testLocateDao() throws IOException{
@@ -71,7 +90,7 @@ public class TestDAO {
 
                 if (country.equals("VN")) {
                     System.out.println(id + ", " + nameArea + ", " + country + ", " + coord.toString());
-                    locateDao.save(new Locate(id, Helper.removeAccent(nameArea),coord.lon.floatValue(),coord.lat.floatValue()));
+                    locateDao.save(new Locate(String.valueOf(id), Helper.removeAccent(nameArea)));
                     dem++;
                 }
 
@@ -86,7 +105,7 @@ public class TestDAO {
     }
     public static void testLocateDao1(){
         LocateDao locateDao = new LocateDao();
-        locateDao.save(new Locate(1,"Ha Noi",105.7F,20.999F));
+        locateDao.save(new Locate("1","Ha Noi"));
     }
     public static void testUserDao(){
         UserDao userDao = new UserDao();

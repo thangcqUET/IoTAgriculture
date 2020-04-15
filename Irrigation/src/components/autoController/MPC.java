@@ -40,7 +40,7 @@ public class MPC {
 //                }
                 if(now.withNano(0).withSecond(0).compareTo(dcum.peek().getLatestIrrigationTime().plusHours(1).withNano(0).withSecond(0))==0){
                     System.out.println("NOW: "+now+" DCU TIME: "+dcum.peek().getLatestIrrigationTime());
-                    ArrayList<DeviceControlUnit> dcus = new ArrayList<>();
+                    ArrayList<DeviceControlUnit> dcus = new ArrayList<DeviceControlUnit>();
                     // tranh TH xu ly lau hon 1 phut
                     while((!dcum.isEmpty())&&(now.withNano(0).withSecond(0).compareTo(dcum.peek().getLatestIrrigationTime().plusHours(1).withNano(0).withSecond(0))==0)){
                         System.out.println("REMOVE...");

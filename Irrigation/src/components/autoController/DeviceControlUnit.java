@@ -28,7 +28,7 @@ public class DeviceControlUnit extends Controller implements Comparable<DeviceCo
     public DeviceControlUnit(){
         super(1685555620347905L);
         locateId = "353412"; //Hanoi
-        latestIrrigationTime = LocalTime.now().withNano(0).withSecond(0).withMinute(0);// test, trong thực tế sẽ là giờ tròn, tức X h 00 m
+        latestIrrigationTime = LocalTime.now().withNano(0).withSecond(0).withMinute(1);// test, trong thực tế sẽ là giờ tròn, tức X h 00 m, minute = 1 vi de update WeatherForecast truoc
         pumpSpeed=0.75F; //ml/s
         upperThreshold=100F;
         lowerThreshold=10F;
@@ -138,7 +138,7 @@ public class DeviceControlUnit extends Controller implements Comparable<DeviceCo
 //            System.out.println("DeviceControlUnit line 133");
 //            System.out.println(weatherForecast);
         }else {
-            weatherForecast.updateTest();
+            weatherForecast.update();
         }
         return weatherForecast;
     }

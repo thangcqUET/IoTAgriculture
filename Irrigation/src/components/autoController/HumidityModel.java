@@ -1,10 +1,18 @@
 package components.autoController;
 
-import components.Converter;
 import model.WeatherForecast;
 
+import java.io.IOException;
 import java.time.LocalTime;
-import java.util.ArrayList;
+
+import model.WeatherForecastAtATime;
+import org.deeplearning4j.nn.modelimport.keras.KerasModelImport;
+import org.deeplearning4j.nn.modelimport.keras.exceptions.InvalidKerasConfigurationException;
+import org.deeplearning4j.nn.modelimport.keras.exceptions.UnsupportedKerasConfigurationException;
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.io.ClassPathResource;
 
 public class HumidityModel {
     /**
@@ -14,7 +22,24 @@ public class HumidityModel {
      * @param curWat
      * @return
      */
-    Float getNextSoilMoisture(Float period /* s */, Float curSoilMoisture, WeatherForecast.WeatherForecastAtATime curWat){
+    Float getNextSoilMoisture(Float period /* s */, Float curSoilMoisture, WeatherForecastAtATime curWat){
+
+        try {
+            // load the model
+            String evaMlp = null;
+            evaMlp = new ClassPathResource("eva.h5").getFile().getPath();
+            MultiLayerNetwork model = KerasModelImport.importKerasSequentialModelAndWeights(evaMlp);
+            INDArray features = Nd4j.create(1,2,3,4);
+//            Float result = model.output(features).getFloat();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (UnsupportedKerasConfigurationException e) {
+            e.printStackTrace();
+        } catch (InvalidKerasConfigurationException e) {
+            e.printStackTrace();
+        }
+
+
         Float nextSoilMoisture=curSoilMoisture;
         Float amountOfWaterLost=(4*period)/3600F;//cong thuc
         nextSoilMoisture-=amountOfWaterLost;
@@ -51,7 +76,7 @@ public class HumidityModel {
      * @param wat
      * @return true: nếu nằm trong ngưỡng; false: nằm ngoài ngưỡng
      */
-    public boolean calNextSoilMoisture(DeviceControlUnit dcu, Chart chart, Float water, WeatherForecast.WeatherForecastAtATime wat) {
+    public boolean calNextSoilMoisture(DeviceControlUnit dcu, Chart chart, Float water, WeatherForecastAtATime wat) {
         if(water==0){
             //Tính lượng giảm
             Float curSoilMoisture =  chart.getPoints().get(chart.getPoints().size()-1).getValue();

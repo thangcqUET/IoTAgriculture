@@ -45,10 +45,10 @@ public class MPC {
                     while((!dcum.isEmpty())&&(now.withNano(0).withSecond(0).compareTo(dcum.peek().getLatestIrrigationTime().plusHours(1).withNano(0).withSecond(0))==0)){
                         System.out.println("REMOVE...");
                         dcus.add(dcum.remove());
-                        System.out.println(dcus.size());
                     }
-                    //System.out.println("exist loop...");
                     System.out.println(dcus.size());
+                    System.out.println("\n------\nDeviceControlUnits will process:\n" +dcus+"\n------\n");
+                    //System.out.println("exist loop...");
                     for(DeviceControlUnit dcu: dcus){
                         if(dcu.needProcess()) {
                             System.out.println("OPTIMIZE");

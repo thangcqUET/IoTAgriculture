@@ -331,7 +331,6 @@ public class TestMQTT {
                 deviceId,
                 plotId,
                 (soilMoisture)!=null?soilMoisture.floatValue():null,
-                (soilTemperature)!=null?soilTemperature.floatValue():null,
                 (airHumidity)!=null?airHumidity.floatValue():null,
                 (airTemperature)!=null?airTemperature.floatValue():null,
                 (lightLevel)!=null?lightLevel.intValue():null,

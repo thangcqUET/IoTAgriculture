@@ -1,0 +1,116 @@
+Manifest-Version: 1.0
+Main-Class: MainClass
+Class-Path: grpc-google-longrunning-v1-0.1.11.jar netty-codec-socks-4.1.
+ 8.Final.jar opencv-platform-3.4.2-1.4.2.jar nd4j-native-1.0.0-beta2-lin
+ ux-x86_64.jar imageio-core-3.1.1.jar proto-google-cloud-pubsub-v1-0.1.1
+ 8.jar netty-resolver-4.1.8.Final.jar google-api-services-clouddebugger-
+ v2-rev8-1.22.0.jar ffmpeg-4.0.1-1.4.2.jar stream-2.7.0.jar nearestneigh
+ bor-core-1.0.0-beta2.jar artoolkitplus-2.3.1-1.4.2.jar libdc1394-2.2.5-
+ 1.4.2.jar google-cloud-core-1.0.2.jar nd4j-base64-1.0.0-beta2.jar fland
+ mark-1.07-1.4.2.jar leptonica-1.76.0-1.4.2-windows-x86.jar deeplearning
+ 4j-datavec-iterators-1.0.0-beta2.jar netty-codec-http-4.1.8.Final.jar o
+ penblas-0.3.0-1.4.2-android-arm64.jar opencv-3.4.2-1.4.2-linux-ppc64le.
+ jar google-oauth-client-java6-1.20.0.jar grpc-google-cloud-spanner-admi
+ n-instance-v1-0.1.11.jar nd4j-api-1.0.0-beta2.jar instrumentation-api-0
+ .3.0.jar opencv-3.4.2-1.4.2-ios-x86_64.jar avro-1.8.2.jar imageio-tiff-
+ 3.1.1.jar google-auth-library-appengine-0.7.0.jar json-simple-1.1.1.jar
+  opencv-3.4.2-1.4.2-linux-x86_64.jar bigtable-protos-1.0.0-pre3.jar com
+ mon-io-3.1.1.jar openblas-0.3.0-1.4.2-linux-x86_64.jar annotations-13.0
+ .jar beam-runners-google-cloud-dataflow-java-2.2.0.jar api-common-1.1.0
+ .jar nd4j-native-1.0.0-beta2-ios-x86_64.jar commons-codec-1.10.jar lept
+ onica-platform-1.76.0-1.4.2.jar jetty-util-9.4.9.v20180320.jar mkl-2018
+ .3-1.4.2-windows-x86.jar mkl-dnn-platform-0.15-1.4.2.jar flatbuffers-1.
+ 2.0-3f79e055.jar protobuf-javanano-3.0.0-alpha-5.jar common-lang-3.1.1.
+ jar deeplearning4j-utility-iterators-1.0.0-beta2.jar grpc-protobuf-1.2.
+ 0.jar opencv-3.4.2-1.4.2-linux-armhf.jar httpclient-4.0.1.jar jetty-ser
+ ver-9.4.9.v20180320.jar jetty-io-9.4.9.v20180320.jar jai-imageio-core-1
+ .3.0.jar google-api-services-storage-v1-rev71-1.22.0.jar mkl-2018.3-1.4
+ .2-macosx-x86_64.jar openblas-0.3.0-1.4.2-macosx-x86_64.jar hdf5-platfo
+ rm-1.10.2-1.4.2.jar javax.servlet-api-3.1.0.jar hdf5-1.10.2-1.4.2.jar o
+ penblas-platform-0.3.0-1.4.2.jar google-api-services-bigquery-v2-rev355
+ -1.22.0.jar librealsense-1.12.1-1.4.2.jar tesseract-4.0.0-beta.3-1.4.2.
+ jar nd4j-native-1.0.0-beta2-android-arm64.jar snakeyaml-1.12.jar nd4j-n
+ ative-1.0.0-beta2.jar netty-codec-http2-4.1.8.Final.jar libfreenect-0.5
+ .3-1.4.2.jar org.eclipse.paho.client.mqttv3-1.2.1.jar google-api-servic
+ es-pubsub-v1-rev10-1.22.0.jar google-http-client-protobuf-1.20.0.jar op
+ encv-3.4.2-1.4.2-macosx-x86_64.jar deeplearning4j-common-1.0.0-beta2.ja
+ r nd4j-native-1.0.0-beta2-android-arm.jar grpc-google-common-protos-0.1
+ .0.jar openblas-0.3.0-1.4.2-android-x86.jar openblas-0.3.0-1.4.2-window
+ s-x86.jar common-image-3.1.1.jar datastore-v1-proto-client-1.4.0.jar de
+ eplearning4j-datasets-1.0.0-beta2.jar deeplearning4j-tsne-1.0.0-beta2.j
+ ar nd4j-common-1.0.0-beta2.jar commons-compress-1.16.1.jar joda-time-2.
+ 2.jar nd4j-native-platform-1.0.0-beta2.jar google-api-client-java6-1.20
+ .0.jar objenesis-2.6.jar imageio-metadata-3.1.1.jar leptonica-1.76.0-1.
+ 4.2-android-x86_64.jar google-api-services-cloudresourcemanager-v1-rev6
+ -1.22.0.jar grpc-netty-1.2.0.jar error_prone_annotations-2.0.11.jar osh
+ i-core-3.4.2.jar deeplearning4j-core-1.0.0-beta2.jar opencv-3.4.2-1.4.2
+ -windows-x86_64.jar mkl-2018.3-1.4.2.jar hamcrest-core-1.1.jar leptonic
+ a-1.76.0-1.4.2-android-arm64.jar jackson-core-2.8.9.jar leptonica-1.76.
+ 0-1.4.2-linux-x86.jar openblas-0.3.0-1.4.2-android-x86_64.jar jackson-d
+ atabind-2.8.9.jar gax-grpc-0.20.0.jar cloning-1.9.3.jar proto-google-lo
+ ngrunning-v1-0.1.11.jar stax2-api-3.1.4.jar commons-math3-3.5.jar netty
+ -handler-proxy-4.1.8.Final.jar javacv-1.4.2.jar google-cloud-core-grpc-
+ 1.2.0.jar jackson-core-asl-1.9.13.jar nd4j-native-1.0.0-beta2-ios-arm64
+ .jar slf4j-log4j12-1.7.7.jar jackson-1.0.0-beta2.jar paranamer-2.7.jar 
+ jackson-annotations-2.8.9.jar log4j-1.2.17.jar beam-sdks-java-extension
+ s-protobuf-2.2.0.jar jna-4.3.0.jar datavec-data-image-1.0.0-beta2.jar n
+ eoitertools-1.0.0.jar google-http-client-jackson2-1.22.0.jar opencv-3.4
+ .2-1.4.2-android-x86_64.jar datavec-api-1.0.0-beta2.jar junit-4.10.jar 
+ openblas-0.3.0-1.4.2-windows-x86_64.jar grpc-stub-1.2.0.jar proto-googl
+ e-cloud-spanner-admin-database-v1-0.1.9.jar commons-lang3-3.6.jar grpc-
+ context-1.2.0.jar netty-codec-4.1.8.Final.jar hdf5-1.10.2-1.4.2-windows
+ -x86.jar beam-sdks-java-extensions-google-cloud-platform-core-2.2.0.jar
+  opencv-3.4.2-1.4.2-android-arm.jar javacpp-1.4.2.jar beam-sdks-java-co
+ re-2.2.0.jar okhttp-2.5.0.jar hdf5-1.10.2-1.4.2-linux-ppc64le.jar metri
+ cs-core-3.1.2.jar jna-platform-4.3.0.jar grpc-google-cloud-spanner-admi
+ n-database-v1-0.1.11.jar netty-handler-4.1.8.Final.jar hdf5-1.10.2-1.4.
+ 2-windows-x86_64.jar google-oauth-client-1.20.0.jar xz-1.5.jar grpc-all
+ -1.2.0.jar proto-google-cloud-spanner-admin-instance-v1-0.1.11.jar data
+ store-v1-protos-1.3.0.jar hdf5-1.10.2-1.4.2-linux-x86.jar beam-sdks-com
+ mon-runner-api-2.2.0.jar openblas-0.3.0-1.4.2-ios-x86_64.jar protobuf-j
+ ava-3.6.1.jar okio-1.6.0.jar commons-net-3.1.jar leptonica-1.76.0-1.4.2
+ -android-x86.jar hdf5-1.10.2-1.4.2-linux-x86_64.jar grpc-core-1.2.0.jar
+  imageio-psd-3.1.1.jar jackson-mapper-asl-1.9.13.jar openblas-0.3.0-1.4
+ .2.jar nd4j-native-1.0.0-beta2-windows-x86_64.jar hdf5-1.10.2-1.4.2-mac
+ osx-x86_64.jar openblas-0.3.0-1.4.2-linux-ppc64le.jar auto-value-1.2.ja
+ r openblas-0.3.0-1.4.2-android-arm.jar nd4j-native-1.0.0-beta2-macosx-x
+ 86_64.jar mkl-dnn-0.15-1.4.2.jar netty-common-4.1.8.Final.jar leptonica
+ -1.76.0-1.4.2-android-arm.jar proto-google-iam-v1-0.1.18.jar google-clo
+ ud-spanner-0.20.0-beta.jar nd4j-native-1.0.0-beta2-android-x86.jar prot
+ o-google-cloud-spanner-v1-0.1.11.jar beam-runners-direct-java-2.2.0.jar
+  opencv-3.4.2-1.4.2.jar flycapture-2.11.3.121-1.4.2.jar guava-20.0.jar 
+ google-api-client-1.22.0.jar grpc-protobuf-lite-1.2.0.jar google-auth-l
+ ibrary-credentials-0.7.1.jar leptonica-1.76.0-1.4.2-macosx-x86_64.jar g
+ oogle-api-client-jackson2-1.20.0.jar protobuf-java-shaded-351-0.9.jar d
+ eeplearning4j-modelimport-1.0.0-beta2.jar grpc-okhttp-1.2.0.jar httpcor
+ e-4.0.1.jar jetty-http-9.4.9.v20180320.jar snappy-java-1.1.4.jar google
+ -api-services-dataflow-v1b3-rev213-1.22.0.jar netty-tcnative-boringssl-
+ static-1.1.33.Fork26.jar opencv-3.4.2-1.4.2-android-arm64.jar freemarke
+ r-2.3.23.jar opencv-3.4.2-1.4.2-linux-x86.jar google-auth-library-oauth
+ 2-http-0.7.1.jar proto-google-common-protos-0.1.9.jar jsr305-3.0.1.jar 
+ deeplearning4j-util-1.0.0-beta2.jar util-1.4.5.jar libfreenect2-0.2.0-1
+ .4.2.jar commons-io-2.5.jar google-cloud-dataflow-java-sdk-all-2.2.0.ja
+ r grpc-auth-1.2.0.jar leptonica-1.76.0-1.4.2-linux-armhf.jar gcsio-1.4.
+ 5.jar leptonica-1.76.0-1.4.2.jar grpc-protobuf-nano-1.2.0.jar google-ht
+ tp-client-jackson-1.20.0.jar commons-logging-1.2.jar slf4j-api-1.7.7.ja
+ r nd4j-native-api-1.0.0-beta2.jar json-20160810.jar nd4j-jackson-1.0.0-
+ beta2.jar gax-1.3.1.jar videoinput-0.200-1.4.2.jar netty-transport-4.1.
+ 8.Final.jar t-digest-3.2.jar mysql-connector-java-8.0.17.jar gson-1.6.j
+ ar grpc-google-cloud-pubsub-v1-0.1.18.jar mkl-dnn-0.15-1.4.2-linux-x86_
+ 64.jar protobuf-java-util-3.2.0.jar mkl-2018.3-1.4.2-windows-x86_64.jar
+  leptonica-1.76.0-1.4.2-linux-x86_64.jar fastutil-6.5.7.jar deeplearnin
+ g4j-nn-1.0.0-beta2.jar nd4j-native-1.0.0-beta2-linux-ppc64le.jar openbl
+ as-0.3.0-1.4.2-linux-armhf.jar leptonica-1.76.0-1.4.2-linux-ppc64le.jar
+  nd4j-native-1.0.0-beta2-android-x86_64.jar opencv-3.4.2-1.4.2-android-
+ x86.jar google-http-client-1.22.0.jar nd4j-buffer-1.0.0-beta2.jar mkl-d
+ nn-0.15-1.4.2-windows-x86_64.jar protobuf-java-util-shaded-351-0.9.jar 
+ mkl-2018.3-1.4.2-linux-x86_64.jar grpc-google-cloud-spanner-v1-0.1.11.j
+ ar imageio-bmp-3.1.1.jar leptonica-1.76.0-1.4.2-windows-x86_64.jar mkl-
+ 2018.3-1.4.2-linux-x86.jar opencv-3.4.2-1.4.2-windows-x86.jar netty-buf
+ fer-4.1.8.Final.jar mkl-platform-2018.3-1.4.2.jar nd4j-context-1.0.0-be
+ ta2.jar mkl-dnn-0.15-1.4.2-macosx-x86_64.jar bigtable-client-core-1.0.0
+ -pre3.jar opencv-3.4.2-1.4.2-ios-arm64.jar imageio-jpeg-3.1.1.jar openc
+ sv-2.3.jar deeplearning4j-ui-components-1.0.0-beta2.jar openblas-0.3.0-
+ 1.4.2-linux-x86.jar openblas-0.3.0-1.4.2-ios-arm64.jar threetenbp-1.3.3
+ .jar beam-sdks-java-io-google-cloud-platform-2.2.0.jar
+

@@ -17,10 +17,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class DataCollector {
+    private MQTTConnector mqttConnector;
+    private String topic = "/iot_agriculture/#";
     public DataCollector() {
-
-        MQTTConnector mqttConnector;
-        String topic = "/iot_agriculture/#";
         mqttConnector = new MQTTConnector();
         mqttConnector.connect();
         mqttConnector.getmMqttClient().setCallback(new MqttCallbackExtended() {
@@ -30,7 +29,8 @@ public class DataCollector {
 
             @Override
             public void connectionLost(Throwable throwable) {
-
+                mqttConnector.connect();
+                mqttConnector.subcribe(topic);
             }
 
             @Override
@@ -72,6 +72,9 @@ public class DataCollector {
 
             }
         });
+
+    }
+    public void run(){
         mqttConnector.subcribe(topic);
     }
     private static void createFarmId(MqttMessage mqttMessage){
@@ -334,23 +337,23 @@ public class DataCollector {
         if(jsonObject.get("airTemperature") instanceof Double){
 //            System.out.println("airTemperature");
             airTemperature = (Double) jsonObject.get("airTemperature");
-        }
+        }else return;
         if(jsonObject.get("airHumidity") instanceof Double){
 //            System.out.println("airHumidity");
             airHumidity = (Double) jsonObject.get("airHumidity");
-        }
-        if((jsonObject.get("soilTemperature") instanceof Double)){
-//            System.out.println("soilTemperature");
-            soilTemperature = (Double) jsonObject.get("soilTemperature");
-        }
+        }else return;
+//        if((jsonObject.get("soilTemperature") instanceof Double)){
+////            System.out.println("soilTemperature");
+//            soilTemperature = (Double) jsonObject.get("soilTemperature");
+//        }else return;
         if(jsonObject.get("soilMoisture") instanceof Double){
 //            System.out.println("soilMoisture");
             soilMoisture = (Double) jsonObject.get("soilMoisture");
-        }
+        }else return;
         if(jsonObject.get("lightLevel") instanceof Long){
 //            System.out.println("lightLevel");
             lightLevel = (Long) jsonObject.get("lightLevel");
-        }
+        }else return;
         if(jsonObject.get("deviceId") instanceof Long){
 //            System.out.println("deviceId");
             deviceId = (Long) jsonObject.get("deviceId");
@@ -362,7 +365,6 @@ public class DataCollector {
                 deviceId,
                 plotId,
                 (soilMoisture)!=null?soilMoisture.floatValue():null,
-                (soilTemperature)!=null?soilTemperature.floatValue():null,
                 (airHumidity)!=null?airHumidity.floatValue():null,
                 (airTemperature)!=null?airTemperature.floatValue():null,
                 (lightLevel)!=null?lightLevel.intValue():null,

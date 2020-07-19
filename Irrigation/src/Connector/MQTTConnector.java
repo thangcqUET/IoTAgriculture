@@ -23,8 +23,8 @@ public class MQTTConnector {
     public MQTTConnector(){
         mqttConnectOptions = new MqttConnectOptions();
         this.host = "iotagriculture.ddns.net";
-        mqttConnectOptions.setUserName("admin");
-        mqttConnectOptions.setPassword("12345678".toCharArray());
+        mqttConnectOptions.setUserName("root");
+        mqttConnectOptions.setPassword("root".toCharArray());
         mqttConnectOptions.setAutomaticReconnect(true);
         mqttConnectOptions.setCleanSession(true);
         byte[] payloadOffline = {0,1};
@@ -35,7 +35,7 @@ public class MQTTConnector {
         this.mqttConnectOptions=mqttConnectOptions;
     }
 
-    public void connect(){
+    public synchronized void connect(){
         try {
             MqttClientPersistence mqttClientPersistence = new MqttDefaultFilePersistence("paho");
             mMqttClient = new MqttClient("tcp://"+this.host+":1883",MqttClient.generateClientId(),mqttClientPersistence);

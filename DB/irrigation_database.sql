@@ -73,7 +73,7 @@ create table if not exists Sensing(
     SoilMoisture float4,
     Humidity float4,
     Temperature float4,
-    SoilTemperature float4,
+    -- SoilTemperature float4,
     LightLevel int,
     TimeOfMeasurement datetime,
     primary key(SensingID),
@@ -118,14 +118,55 @@ create table if not exists Controlling(
     foreign key(PlotID) references Plots(PlotID)on delete restrict on update cascade
 ) engine InnoDB default charset=utf8;
 
+insert into Users(Users.UserName, Users.UPassword)
+	select * from (select "admin",md5("12345678")) as tmp
+    where not exists(
+     select UserName from Users where UserName="admin"
+    ) limit 1;
 
-insert into Locates(LocateID, locateName) values ("353412","Ha Noi");
-insert into DeviceTypes (DeviceType) values ("Agriculture Sensor");
-insert into DeviceTypes (DeviceType) values ("Pump");
-insert into FarmTypes(FarmType) values ("Default");
-insert into Farms(Locate,Area,FarmTypeID,UserID) values (1,1,1,1);
-insert into PlotTypes(PlotTypes.PlotType) values("Default");
-insert into Plots(Plots.PlotID, Plots.FarmID, Plots.PlotTypeID, Plots.Area) values(1,1,1,1);
+insert into Locates(LocateID, locateName)
+	select * from (select "353412","Ha Noi") as tmp
+    where not exists(
+     select LocateID from Locates where LocateID="353412"
+    ) limit 1;
+
+insert into DeviceTypes (DeviceType)
+	select * from (select "Agriculture Sensor") as tmp
+    where not exists(
+     select DeviceType from DeviceTypes where DeviceType="Agriculture Sensor"
+    ) limit 1;
+
+insert into DeviceTypes (DeviceType)
+	select * from (select "Pump") as tmp
+    where not exists(
+     select DeviceType from DeviceTypes where DeviceType="Pump"
+    ) limit 1;
+
+
+insert into FarmTypes(FarmType)
+	select * from (select "Default") as tmp
+    where not exists(
+     select FarmType from FarmTypes where FarmType="Default"
+    ) limit 1;
+
+
+insert into Farms(LocateID,Area,FarmTypeID,UserID)
+	select * from (select "353412" as a,1 as b,1 as c,1 as d) as tmp
+    where not exists(
+     select Area from Farms where Area=1
+    ) limit 1;
+
+insert into PlotTypes(PlotTypes.PlotType)
+	select * from (select "Default") as tmp
+    where not exists(
+     select PlotType from PlotTypes where PlotType="Default"
+    ) limit 1;
+    
+insert into Plots(Plots.PlotID, Plots.FarmID, Plots.PlotTypeID, Plots.Area)
+	select * from (select 1 as a,1 as b,1 as c,1 as d) as tmp
+    where not exists(
+     select Area from Plots where Area=1
+    ) limit 1;
 
 -- create view FarmHasTypes as
 -- select FarmID, Locate, Area, Farms.FarmTypeID, UserID, FarmType from Farms,FarmTypes

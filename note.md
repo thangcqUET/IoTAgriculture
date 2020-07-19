@@ -238,6 +238,7 @@ journalctl -f -u gateway
 ## BUG
 - Khi thêm ControllingDataSender vào thì DataCollector không nhận được gói tin Gateway offline khi Gateway tắt nữa
 - Khi điều khiển máy bơm bật hoặc tắt thì máy bơm bị mất kết nối và rơi vào  trạng thái offline máy bơm sẽ không được bật hoặc tắt
+- Khi 2 server cùng bật, có xuất hiện hiện tượng 1 server bị lỗi khi bắt được gói tin Device online
   
 ## các chức năng cần thêm
 - lấy dữ liệu từ API thời tiết
@@ -290,3 +291,8 @@ Bài học ở đây là khi quyết định một cấu trúc dữ liệu thì 
 scp -r -P23456 /home/caothang/Documents/research/Agriculture/IoTAgriculture/Irrigation/out/artifacts/Irrigation_jar thang_uet@112.137.129.202:/home/thang_uet/server_iotagriculture/ 
 ```
 /home/caothang/Documents/research/Agriculture/IoTAgriculture/DB/irrigation_database.sql
+
+Gửi gói tin điều khiển
+```
+mosquitto_pub -h iotagriculture.ddns.net -u root -P root -t '/iot_agriculture/controlling/1' -m "{\"timeToWater\":10.0,\"deviceId\":73014444033}
+```

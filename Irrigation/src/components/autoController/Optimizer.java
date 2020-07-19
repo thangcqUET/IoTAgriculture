@@ -3,27 +3,53 @@ package components.autoController;
 import model.WeatherForecast;
 
 public class Optimizer {
-    float[] waterLevel={0,1,2,3};
-    float waterLevelSelected=0;
+    int[] irrigationPeriodTimeLevel={0,1,2,3};
+    float timeLevelSelected=0;
     HumidityModel humidityModel=new HumidityModel();
     Integer timeSample;
     Integer horizontal=12;
-    float[] solution = new float[horizontal];
+    int[] solution = new int[horizontal];
     float[] bestSolution = new float[horizontal];
     DeviceControlUnit curDCU;
     Result resultOptimize;
-    public void reset(){
+    public void resetResult(){
         resultOptimize=null;
     }
     public void process(DeviceControlUnit dcu) {
-//        int upperThreshold = deviceControlUnit.upperThreshold;
-//        int lowerThreshold = deviceControlUnit.lowerThreshold;
-//        int currentHumidity = deviceControlUnit.currentHumidity;
-//        WeatherForecast weatherForecast = weatherForecasts.getForecastByLocateID(deviceControlUnit.locateID);
-//
-//        humidityModel.process(deviceControlUnit);
-        reset();
         curDCU=dcu;
+        curDCU.updateCurrentSoilMoisture();
+        //trường hợp chuẩn bị có mưa sẽ không tưới cho cây
+        if(curDCU.getWeatherForecast().getWeatherForecastAtATimes().get(1).getRainValue()>80){
+            return;
+        }
+        //trong trường hợp độ ẩm đất lớn hơn ngưỡng trên
+        if(curDCU.getCurrentSoilMoisture()>curDCU.getUpperThreshold()){
+            return;
+        }
+
+        // trong trường hợp độ ẩm đất nhỏ hơn ngưỡng dưới
+        if(curDCU.getCurrentSoilMoisture()<curDCU.getLowerThreshold()){
+            while(curDCU.getCurrentSoilMoisture()<curDCU.getLowerThreshold()){
+                Float irrigationPeriodTime=0F;
+                System.out.println("Optimizer line 30");
+                System.out.println(curDCU.getCurrentSoilMoisture().floatValue()+" "+
+                        (curDCU.getLowerThreshold()+curDCU.getCurrentSoilMoisture())/2);
+                irrigationPeriodTime = humidityModel.getIrrigationPeriodTime(
+                        curDCU.getCurrentSoilMoisture().floatValue(),
+                        (curDCU.getLowerThreshold()+curDCU.getCurrentSoilMoisture())/2
+                );
+//                System.out.println("Optimizer irrigationPeriodTime:" + irrigationPeriodTime);
+                curDCU.setIrrigationPeriodTime(irrigationPeriodTime);
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                curDCU.updateCurrentSoilMoisture();
+            }
+        }
+        // Trong trường hợp Độ ẩm đất đang nằm ở trong ngưỡng
+        resetResult();
         Chart chart = new Chart(curDCU.getUpperThreshold(),curDCU.getLowerThreshold());
         Result result = new Result();
         result.setChart(chart);
@@ -37,39 +63,47 @@ public class Optimizer {
             System.out.print(s+" ");
         }
         System.out.println();
-        curDCU.setAmountOfWater(waterLevelSelected);
+        curDCU.setIrrigationPeriodTime(timeLevelSelected);
 
     }
 
     public void generateSolution(int index, Result result, DeviceControlUnit dcu){
         if(index == horizontal){
-            //System.out.print(".");
-//            for(int i=0;i<12;i++){
-//                System.out.print(solution[i]+" ");
-//            }
-//            System.out.println("\n----------");
+            System.out.print("\nSolution");
+            System.out.println("\n----------");
+            for(int i=0;i<12;i++){
+                System.out.print(solution[i]+" ");
+            }
+            System.out.println("\n----------");
             calResult(result);
             if(resultOptimize==null){
                 resultOptimize = new Result(result);
+                for(int i=0;i<horizontal;i++){
+                    bestSolution[i]=solution[i];
+                }
+                timeLevelSelected=solution[0];
             }else
                 if(resultOptimize.compareTo(result)==-1){
-//                    System.out.println();
-//                    for(int i=0;i<12;i++){
-//                        System.out.println(solution[i]+" ");
-//                    }
-//                    System.out.println(result.getAmountOfIrrigationWater());
-//                    System.out.println("----------");
+                    System.out.println("\nTemp best solution");
+                    System.out.println("-----------");
+                    for(int i=0;i<12;i++){
+                        System.out.println(solution[i]+" ");
+                    }
+                    System.out.println(result.getAmountOfIrrigationWater());
+                    System.out.println("----------");
                     resultOptimize=new Result(result);
                     for(int i=0;i<horizontal;i++){
                         bestSolution[i]=solution[i];
                     }
-                    waterLevelSelected=solution[0];
+                    timeLevelSelected=solution[0];
                 }
                 return;
             }
-            for(int i=0;i<waterLevel.length;i++){
-                solution[index]=waterLevel[i];
+            for(int i=0;i<irrigationPeriodTimeLevel.length;i++){
+                solution[index]=irrigationPeriodTimeLevel[i];
                 if(humidityModel.calNextSoilMoisture(curDCU,result.getChart(),solution[index],dcu.getWeatherForecast().getWeatherForecastAtATimes().get(index))) {
+                    calResult(result);
+                    if(resultOptimize !=null && resultOptimize.compareTo(result)==1) continue;
                     generateSolution(index + 1, result, dcu);
                     if(solution[index]==0) result.getChart().remove(result.getChart().getPoints().size()-1);
                     else {

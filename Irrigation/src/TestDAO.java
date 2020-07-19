@@ -162,7 +162,7 @@ public class TestDAO {
         SensingDao sensingDao = new SensingDao();
         for(int i=0;i<10;i++){
             Thread.sleep(1000);
-            sensingDao.save(new Sensing(1L,1,0F,0F,0F,0F,0,Helper.getNow()));
+            sensingDao.save(new Sensing(1L,1,0F,0F,0F,0,Helper.getNow()));
         }
         List<Sensing> sensings = sensingDao.getAll();
         for(Sensing s:sensings){

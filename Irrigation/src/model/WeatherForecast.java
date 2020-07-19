@@ -151,7 +151,7 @@ public class WeatherForecast{
         String api_url = "http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/" + locateId +"?apikey=" + api_key + "&language=en-us&details=true&metric=true";
         return api_url;
     }
-    public void update_(){
+    public void update(){
         if(currentTime==null||(currentTime.plusHours(1).compareTo(LocalTime.now())==-1&&currentTime.getHour()!=23)) {
             weatherForecastAtATimes.clear();
             currentTime = LocalTime.of(LocalTime.now().getHour(), 0);
@@ -182,7 +182,7 @@ public class WeatherForecast{
             return;
         }
     }//REAL
-    public void update(){//TEST
+    public void update_(){//TEST
         if(currentTime==null||(currentTime.plusHours(1).compareTo(LocalTime.now())==-1&&currentTime.getHour()!=23)) {
             weatherForecastAtATimes.clear();
             currentTime = LocalTime.of(LocalTime.now().getHour(), 0);

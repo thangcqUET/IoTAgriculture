@@ -26,12 +26,12 @@ public class DeviceControlUnit extends Controller implements Comparable<DeviceCo
     private Boolean isOn;
     private Float pumpSpeed;
     public DeviceControlUnit(){
-        super(1685555620347905L);
+        super(77309411329L);
         locateId = "353412"; //Hanoi
         latestIrrigationTime = LocalTime.now().withNano(0).withSecond(0).withMinute(1);// test, trong thực tế sẽ là giờ tròn, tức X h 00 m, minute = 1 vi de update WeatherForecast truoc
-        pumpSpeed=0.75F; //ml/s
-        upperThreshold=100F;
-        lowerThreshold=10F;
+        pumpSpeed=3.66F; //ml/s
+        upperThreshold=70F;
+        lowerThreshold=60F;
         isAuto=true;
         isOn=true;
         SensingDao sensingDao = new SensingDao();
@@ -44,13 +44,13 @@ public class DeviceControlUnit extends Controller implements Comparable<DeviceCo
         final String topic = "/iot_agriculture/controlling/"+ Helper.convertDeviceIdToFarmId(currentDCU.getDeviceId());
         currentDCU.setOnControlListener(new OnControlListener() {
             @Override
-            public void onReceivedControllingData(Float amountOfWater) {
-                super.onReceivedControllingData(amountOfWater);
+            public void onReceivedControllingData(Float irrigationPeriodTime) {
+                super.onReceivedControllingData(irrigationPeriodTime);
                 final MQTTConnector mqttConnector;
                 mqttConnector = new MQTTConnector();
                 mqttConnector.connect();
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("timeToWater",amountOfWater/pumpSpeed);
+                jsonObject.put("timeToWater",irrigationPeriodTime);
                 jsonObject.put("deviceId",currentDCU.getDeviceId());
                 mqttConnector.publishMessage(jsonObject.toJSONString(),topic);
                 mqttConnector.disconnect();
@@ -60,10 +60,10 @@ public class DeviceControlUnit extends Controller implements Comparable<DeviceCo
     public DeviceControlUnit(Long deviceId) {
         super(deviceId);
         locateId = "353412"; //Hanoi
-        latestIrrigationTime = LocalTime.now().withNano(0).withSecond(0).withMinute(0);// test, trong thực tế sẽ là giờ tròn, tức X h 00 m
-        pumpSpeed=0.75F; //ml/s
-        upperThreshold=100F;
-        lowerThreshold=10F;
+        latestIrrigationTime = LocalTime.now().withNano(0).withSecond(0).withMinute(1);// test, trong thực tế sẽ là giờ tròn, tức X h 00 m
+        pumpSpeed=3.66F; //ml/s
+        upperThreshold=70F;
+        lowerThreshold=60F;
         isAuto=true;
         isOn=true;
         SensingDao sensingDao = new SensingDao();
@@ -76,15 +76,13 @@ public class DeviceControlUnit extends Controller implements Comparable<DeviceCo
         final String topic = "/iot_agriculture/controlling/"+ Helper.convertDeviceIdToFarmId(currentDCU.getDeviceId());
         currentDCU.setOnControlListener(new OnControlListener() {
             @Override
-            public void onReceivedControllingData(Float amountOfWater) {
-                super.onReceivedControllingData(amountOfWater);
+            public void onReceivedControllingData(Float irrigationPeriodTime) {
+                super.onReceivedControllingData(irrigationPeriodTime);
                 final MQTTConnector mqttConnector;
                 mqttConnector = new MQTTConnector();
                 mqttConnector.connect();
                 JSONObject jsonObject = new JSONObject();
-                System.out.println("amountOfWater: "+amountOfWater);
-                System.out.println("pumpSpeed: "+pumpSpeed);
-                jsonObject.put("timeToWater",amountOfWater/pumpSpeed);
+                jsonObject.put("timeToWater",irrigationPeriodTime);
                 jsonObject.put("deviceId",currentDCU.getDeviceId());
                 mqttConnector.publishMessage(jsonObject.toJSONString(),topic);
                 mqttConnector.disconnect();
@@ -96,6 +94,12 @@ public class DeviceControlUnit extends Controller implements Comparable<DeviceCo
 //        this.locateID = locateID;
 //    }
 
+    public void updateCurrentSoilMoisture(){
+        SensingDao sensingDao = new SensingDao();
+        DeviceDao deviceDao = new DeviceDao();
+        Sensing sensing = sensingDao.getNewestSensingByPlotId(deviceDao.getPlotIdById(getDeviceId()));
+        currentSoilMoisture=sensing.getSoilMoisture().intValue();
+    }
     public void setUpperThreshold(Float upperThreshold) {
         this.upperThreshold = upperThreshold;
     }
@@ -148,6 +152,11 @@ public class DeviceControlUnit extends Controller implements Comparable<DeviceCo
         latestIrrigationTime = latestIrrigationTime.plusHours(1);
     }
 
+    public void setIrrigationPeriodTime(Float irrigationPeriodTime){
+        onControlListener.onReceivedControllingData(irrigationPeriodTime);
+        latestIrrigationTime = latestIrrigationTime.plusHours(1);
+    }
+
     public Float getPumpSpeed() {
         return pumpSpeed;
     }
@@ -182,7 +191,6 @@ public class DeviceControlUnit extends Controller implements Comparable<DeviceCo
 
     @Override
     public String toString() {
-        //return super.toString();
         return "\n------------" +
                 "\ndevice Id: " +getDeviceId()+
                 "\nupperThreshold: "+upperThreshold+
@@ -190,6 +198,8 @@ public class DeviceControlUnit extends Controller implements Comparable<DeviceCo
                 "\ncurrentSoilMoisture: "+currentSoilMoisture+
                 "\nlatestIrrigationTime: "+latestIrrigationTime+
                 "\npumpSpeed: "+pumpSpeed+
+                "\nisAuto: "+isAuto+
+                "\nisOn: "+isOn+
                 "\n-----------\n";
     }
 }

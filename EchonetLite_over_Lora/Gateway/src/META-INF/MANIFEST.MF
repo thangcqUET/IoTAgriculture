@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Main-Class: main.TestAgricultureSensor
+Class-Path: json-simple-1.1.1.jar json-20090211.jar hamcrest-core-1.1.ja
+ r mysql-connector-java-8.0.17.jar protobuf-java-3.6.1.jar pi4j-core-1.2
+ .jar org.eclipse.paho.client.mqttv3-1.2.1.jar junit-4.10.jar
+

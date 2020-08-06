@@ -1,0 +1,4 @@
+1
+Information found!
+>>message is published '/iot_agriculture/status/gateway/online' :
+{"farmId":1}

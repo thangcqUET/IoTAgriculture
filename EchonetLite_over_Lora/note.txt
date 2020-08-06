@@ -1,0 +1,77 @@
+EchoSocket
+EchoProtocol
+EchoTCPProtocol
+EchoUDPProtocol
+
+trong EchoSocket
+hàm startReceiverThread
+	lệnh: sUDPProtocol.receive()
+	lệnh: sTaskQueue.take().perform();
+trong inner class Task nằm ở class EchoProtocol
+	hàm perform()
+	
+trong EchoUDPProtocol
+hàm receive()
+	rxPacket đang phỏng đoán là gói tin nhận được
+	EchoSocket.enqueueTask(task)
+	
+
+
+bug
+Error: Invalid or corrupt jarfile Gateway.jar
+solution:
+
+
+
+Echo.start
+	EchoSocket.openSocket()
+		EchoUDPProtocol.openUDP()
+	EchoSocket.startReceiverThread()
+		EchoUDPProtocol.receive()
+			MulticastSocket.receive(DatagramPacket)
+			EchoSocket.enqueueTask(UDPProtocolTask)
+		LinkedBlockingQueue<EchoProtocol.Task>.take().perform()
+			EchoProtocol.Task.checkObjectInFrame(EchoFrame)
+				EchoNode.onNew()
+				EchoNode.onFound()
+				EchoObject.onNew()
+				EchoObject.onFound()
+			Echo.getEventListener().receiveEvent(EchoFrame)
+			EchoProtocol.onReceiveReport(EchoFrame) (response)
+				EchoObject.Receiver.onReceive(EchoObject, EchoFrame)
+					EchoObject.Receiver.onSetProperty(...)
+					EchoObject.Receiver.onGetProperty(...)
+					EchoObject.Receiver.onInformProperty(...)
+					
+			EchoProtocol.onReceiveRequest(EchoFrame)
+				EchoProtocol.onReceiveRequest(EchoObject, EchoFrame)
+					EchoObject.onReceiveRequest(EchoFrame)
+						EchoObject.onReceiveGetRequest(Byte(EchoProperty.epc), EchoFrame)
+						EchoObject.onReceiveSetRequest(EchoProperty, EchoFrame)
+			informAll(EchoFrame)
+			respond(EchoFrame)
+			
+EchoNode có onNew() -> Echo.getEventListener().onNewNode()
+EchoObject có onNew() -> Echo.getEventListener().onNewEchoObject()
+
+
+Proxy pattern
+	NodeProfile extend ProfileObject
+	Proxy extend NodeProfile
+	NodeProfile has a Proxy
+	
+	
+EchoNode has {NodeProfile, List<DeviceObject>, mAddress}
+EchoObject has {EchoNode, Receiver}
+ProfileObject extends EchoObject has {}
+NodeProfile extends ProfileObject has {}
+DeviceObject extends EchoObject has {}
+
+NodeProfile.Setter extends ProfileObject.Setter
+NodeProfile.Getter extends ProfileObject.Getter
+NodeProfile.Receiver extends ProfileObject.Receiver
+NodeProfile.Informer extends ProfileObject.Informer
+
+
+
+

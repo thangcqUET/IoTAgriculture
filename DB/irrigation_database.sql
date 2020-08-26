@@ -5,6 +5,7 @@ use irrigation_database;
 CREATE TABLE IF NOT EXISTS Users (
     UserID INT NOT NULL AUTO_INCREMENT,
     UserName VARCHAR(50) NOT NULL,
+    Email varchar(50) not null,
     UPassword VARCHAR(50) NOT NULL,
     PRIMARY KEY (UserID)
 )  ENGINE INNODB DEFAULT CHARSET=UTF8;

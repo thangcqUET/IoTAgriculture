@@ -10,7 +10,7 @@ public class LoopController extends Controller {
 
     public LoopController(long deviceId) {
         super(deviceId);
-        this.timeLoop = 20000;
+        this.timeLoop = 60000;
     }
 
     protected void setAmountOfWater(Float amountOfWater){
@@ -22,7 +22,7 @@ public class LoopController extends Controller {
         while(true) {
             try {
                 Thread.sleep(timeLoop);
-                setAmountOfWater(5F);
+                setAmountOfWater(3F);
                 //currentStatus = !currentStatus;
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -13,7 +13,7 @@ public class ControllingDataSender {
     public ControllingDataSender() {
 //        MPC mpc = new MPC();
 //        mpc.process();
-        controller = new LoopController(73014444033L);
+        controller = new LoopController(90194313217L);
         final MQTTConnector mqttConnector;
         mqttConnector = new MQTTConnector();
         try {
@@ -35,7 +35,7 @@ public class ControllingDataSender {
             @Override
             public void onReceivedControllingData(Float amountOfWater) {
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("timeToWater",amountOfWater/0.75F);
+                jsonObject.put("timeToWater",amountOfWater/1F);
                 jsonObject.put("deviceId",controller.getDeviceId());
                 mqttConnector.publishMessage(jsonObject.toJSONString(),topic);
             }
